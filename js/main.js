@@ -67,6 +67,7 @@
 
   function closeIntro() {
     document.body.classList.remove("intro-active");
+    animateHero();
     startScrollReveals();
     gsap.to(intro, {
       opacity: 0,
@@ -299,24 +300,145 @@
   const sections = $$("section[id], header[id]");
   let currentSection = "hero";
 
+  function animateHero() {
+    if (typeof gsap === "undefined") return;
+
+    // Configurar estados iniciales del Hero
+    gsap.set(".hero .eyebrow", { y: 25, opacity: 0 });
+    gsap.set(".hero-title", { y: 35, opacity: 0, scale: 0.96 });
+    gsap.set(".hero-subtitle-top", { y: 20, opacity: 0 });
+    gsap.set(".hero-sub", { y: 20, opacity: 0 });
+    gsap.set(".hero-date-chip", { y: 30, opacity: 0, scale: 0.95 });
+    gsap.set(".hero-scroll", { y: 15, opacity: 0 });
+    gsap.set(".hero .floater img, .hero .floater svg", { scale: 0.6, y: 30, opacity: 0 });
+
+    // Animación secuencial
+    const heroTl = gsap.timeline({ delay: 0.3 });
+    heroTl.to(".hero .eyebrow", { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" })
+          .to(".hero-title", { y: 0, opacity: 1, scale: 1, duration: 1.1, ease: "power3.out" }, "-=0.7")
+          .to(".hero-subtitle-top", { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" }, "-=0.7")
+          .to(".hero-sub", { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" }, "-=0.7")
+          .to(".hero-date-chip", { y: 0, opacity: 1, scale: 1, duration: 0.9, ease: "back.out(1.2)" }, "-=0.5")
+          .to(".hero-scroll", { y: 0, opacity: 1, duration: 0.8 }, "-=0.3")
+          .to(".hero .floater img, .hero .floater svg", { scale: 1, opacity: 1, y: 0, duration: 1.1, stagger: 0.15, ease: "back.out(1.4)" }, "-=0.8");
+  }
+
   let scrollObserverInitialized = false;
   function startScrollReveals() {
     if (scrollObserverInitialized) return;
     scrollObserverInitialized = true;
 
-    const isMobile = window.innerWidth < 768;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("is-visible");
+    // Registrar ScrollTrigger si está disponible
+    if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Animar cada elemento .reveal con ScrollTrigger
+      revealEls.forEach((section) => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top 88%", // se activa cuando la parte superior de la sección está al 88% del viewport
+            toggleActions: "play none none none"
+          }
         });
-      },
-      { threshold: isMobile ? 0.05 : 0.15 }
-    );
-    revealEls.forEach((el) => io.observe(el));
+
+        // 1. Animar la sección en sí
+        tl.to(section, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out"
+        });
+
+        // 2. Si tiene una cabecera de sección (.section-head), animar sus elementos
+        const head = $(".section-head", section);
+        if (head) {
+          const eyebrow = $(".eyebrow", head);
+          const h2 = $("h2", head);
+          const p = $("p", head);
+          const elementsToAnimate = [];
+          if (eyebrow) elementsToAnimate.push(eyebrow);
+          if (h2) elementsToAnimate.push(h2);
+          if (p) elementsToAnimate.push(p);
+
+          if (elementsToAnimate.length > 0) {
+            gsap.set(elementsToAnimate, { y: 20, opacity: 0 });
+            tl.to(elementsToAnimate, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              stagger: 0.15,
+              ease: "power2.out"
+            }, "-=0.7");
+          }
+        }
+
+        // 3. Animar la tarjeta de historia (si la hay)
+        const storyCard = $(".story-card", section);
+        if (storyCard) {
+          gsap.set(storyCard, { y: 30, opacity: 0 });
+          tl.to(storyCard, {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power2.out"
+          }, "-=0.6");
+        }
+
+        // 4. Animar elementos escalonados (stagger) como cuadrículas o listas
+        const staggerContainer = $(".reveal-stagger", section);
+        if (staggerContainer) {
+          const items = Array.from(staggerContainer.children);
+          if (items.length > 0) {
+            gsap.set(items, { y: 30, opacity: 0 });
+            tl.to(items, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              stagger: 0.15,
+              ease: "power3.out"
+            }, "-=0.6");
+          }
+        }
+
+        // 5. Animar la tarjeta RSVP (si la hay)
+        const rsvpCard = $(".rsvp-card", section);
+        if (rsvpCard) {
+          gsap.set(rsvpCard, { y: 40, opacity: 0, scale: 0.98 });
+          tl.to(rsvpCard, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.9,
+            ease: "power3.out"
+          }, "-=0.6");
+        }
+
+        // 6. Animar elementos flotantes de la sección (floater)
+        const floaters = $$(".floater img, .floater svg", section);
+        if (floaters.length > 0) {
+          gsap.set(floaters, { scale: 0.6, y: 30, opacity: 0 });
+          tl.to(floaters, {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 1.2,
+            stagger: 0.15,
+            ease: "back.out(1.4)"
+          }, "-=0.6");
+        }
+      });
+    } else {
+      // Fallback simple por si falla GSAP
+      revealEls.forEach((el) => {
+        el.style.opacity = "1";
+        el.style.transform = "none";
+      });
+    }
   }
 
   if (!document.body.classList.contains("intro-active")) {
+    animateHero();
     startScrollReveals();
   }
 
