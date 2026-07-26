@@ -1,0 +1,22 @@
+{
+  "event": {
+    "babyName": "Nashly Antonella",
+    "parents": "Familia Bracho",
+    "date": "2026-10-10T16:00:00-04:00",
+    "venue": "Club De Empleados Banreservas",
+    "address": "Av. Gregorio Luperón, Santo Domingo Oeste",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Club+de+Empleados+Banreservas+Santo+Domingo"
+  },
+  "guests": [
+    {
+      "id": "g3957bba6",
+      "firstName": "Gina",
+      "lastName": "Rodriguez",
+      "phone": "809-4741614",
+      "attendees": 3,
+      "status": "confirmed",
+      "message": "",
+      "createdAt": "2026-07-17T23:18:49.770Z"
+    }
+  ]
+}

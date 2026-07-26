@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>💗 Baby Shower de Nashly Antonella · Bajo las Olas</title>
+  <meta name="description"
+    content="Nos encantaría que nos acompañes a celebrar la llegada de nuestra pequeña sirenita. Baby Shower con temática del mar.">
+  <meta name="theme-color" content="#FFF9FA">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+
+  <meta property="og:title" content="Baby Shower de Nashly Antonella 🐚">
+  <meta property="og:description" content="Nos encantaría que nos acompañes a celebrar bajo las olas.">
+  <meta property="og:type" content="website">
+
+  <!-- Fuentes Premium Elegantes -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Outfit:wght@200;300;400;500;600;700&family=Great+Vibes&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=bubblev28">
+</head>
+
+<body class="intro-active">
+
+  <!-- Fondo de Burbujas Codepen (Carga Inmediata) -->
+  <script>
+    (function () {
+      const container = document.createElement("div");
+      container.className = "main";
+      document.body.appendChild(container);
+
+      let styles = `
+      .main {
+        position: fixed;
+        left: 0; top: 0; right: 0; bottom: 0;
+        z-index: -1;
+        width: 100vw; height: 100vh;
+        overflow: hidden;
+        background: linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(187,147,252,0.8) 26%, rgba(148,237,255,1) 50%);
+        pointer-events: none;
+      }
+      body {
+        background: transparent !important;
+      }
+      .bubble {
+        background-color: rgba(255, 255, 255, 0.4);
+        display: inline-block;
+        width: 40px; height: 40px;
+        border-radius: 50%;
+        position: absolute;
+        pointer-events: none;
+        box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+      .credits {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        padding: 2px 15px;
+        background-color: rgba(0,0,0,0.6);
+        width: 100%;
+        z-index: 111;
+        pointer-events: auto;
+      }
+      .credits a {
+        color: #fff;
+        font-size: 11px;
+        text-decoration: none;
+        letter-spacing: 0.05em;
+      }
+    `;
+
+      for (let i = 1; i <= 30; i++) {
+        const opacity = (Math.random() * 0.9 + 0.1).toFixed(2);
+        const left = (Math.random() * 100).toFixed(1);
+        const top = (Math.random() * 100).toFixed(1);
+        const duration = (30 + i * 0.02).toFixed(2);
+        const scaleStart = (Math.random() * 2.0 + 0.05).toFixed(2);
+
+        const midPct = Math.floor(Math.random() * 30) + 30;
+        const transX = (Math.random() * 100 - 100).toFixed(1);
+        const transY = (Math.random() * 100 - 100).toFixed(1);
+        const scaleMid = (Math.random() * 2.0 + 2.0).toFixed(2);
+
+        styles += `
+        .bubble-${i} {
+          opacity: ${opacity};
+          left: ${left}vw;
+          top: ${top}vh;
+          transform: translate(0, 0) scale(${scaleStart});
+          animation: move-${i} ${duration}s infinite ease-in-out;
+        }
+        @keyframes move-${i} {
+          0%, 100% {
+            transform: translate(0, 0) scale(${scaleStart});
+          }
+          ${midPct}% {
+            transform: translate(${transX}vw, ${transY}vh) scale(${scaleMid});
+          }
+        }
+      `;
+
+        const el = document.createElement("div");
+        el.className = `bubble bubble-${i}`;
+        container.appendChild(el);
+      }
+
+      const styleSheet = document.createElement("style");
+      styleSheet.innerText = styles;
+      document.head.appendChild(styleSheet);
+    })();
+  </script>
+
+
+  <!-- ============================================================ -->
+  <!-- CURSOR PERSONALIZADO -->
+  <!-- ============================================================ -->
+  <div id="cursor-pearl"></div>
+  <div id="cursor-trail"></div>
+
+
+
+  <!-- ============================================================ -->
+  <!-- INTRO CINEMÁTICA -->
+  <!-- ============================================================ -->
+  <!-- ============================================================ -->
+  <!-- INTRO CINEMÁTICA — AVION DE PAPEL -->
+  <!-- ============================================================ -->
+  <div id="intro">
+    <svg id="flightSvg" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+      <path id="trailPath"
+        d="M -100 680 C 150 600, 300 420, 460 340 C 560 260, 620 150, 700 190 C 760 220, 740 320, 650 320 C 580 320, 560 260, 620 240 C 700 260, 760 340, 700 400 C 640 450, 520 460, 480 380 C 450 320, 520 300, 600 330 C 700 380, 760 460, 700 540 C 640 600, 500 600, 470 520 C 450 460, 520 440, 600 470 C 720 430, 900 380, 1150 250" />
+
+      <g id="plane">
+        <path d="M0 -62 L50 46 L4 22 L-50 46 Z" />
+        <path class="fold" d="M0 -62 L4 22 L0 96" />
+        <path class="fold" d="M4 22 L50 46" />
+        <path class="fold" d="M-4 26 L-50 46" />
+      </g>
+    </svg>
+
+    <!-- Pantalla de inicio interactiva original -->
+    <div class="intro-overlay" id="introOverlay" style="z-index: 10;">
+      <div class="wave-container">
+        <h1 class="wave-text" id="titleText">
+          <span>N</span><span>A</span><span>S</span><span>H</span><span>L</span><span>Y</span><span
+            class="space">&nbsp;</span><span>A</span><span>N</span><span>T</span><span>O</span><span>N</span><span>E</span><span>L</span><span>L</span><span>A</span>
+        </h1>
+      </div>
+      <h2 class="intro-overlay-title" id="babyShowerTitle" style="opacity: 0;">Baby Shower</h2>
+      <p class="intro-overlay-sub" id="babyShowerSub" style="opacity: 0;">Una pequeña sirenita está por llegar</p>
+      <button class="intro-start-btn" id="introStartBtn" style="opacity: 0; pointer-events: none;">Entrar a la
+        experiencia ✦</button>
+    </div>
+
+    <button class="skip-btn" id="skipBtn">Saltar intro</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BARRA SUPERIOR -->
+  <!-- ============================================================ -->
+  <div class="topbar" id="topbar">
+    <span class="brand">Nashly Antonella</span>
+    <button class="icon-btn" id="audioToggle" aria-label="Sonido ambiental" title="Sonido del océano">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M4 9v6h4l5 4V5L8 9H4z" />
+        <path d="M16.5 8a5 5 0 010 8" />
+      </svg>
+    </button>
+    <button class="icon-btn" id="cursorToggle" aria-label="Cursor personalizado" title="Alternar cursor perla">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="12" cy="12" r="6" />
+      </svg>
+    </button>
+    <a class="icon-btn" href="#rsvp" aria-label="Confirmar asistencia" title="Confirmar asistencia">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M20 6L9 17l-5-5" />
+      </svg>
+    </a>
+  </div>
+
+  <!-- Hilo de perlas — progreso -->
+  <div class="pearl-thread" aria-hidden="true">
+    <svg viewBox="0 0 24 200" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="pearlGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FFB3A0" />
+          <stop offset="50%" stop-color="#F3CE8B" />
+          <stop offset="100%" stop-color="#9FE3DC" />
+        </linearGradient>
+      </defs>
+      <path class="thread-line" d="M12 0 L12 200" />
+      <path class="thread-fill" id="threadFill" d="M12 0 L12 0" />
+      <circle class="thread-pearl" id="threadPearl" cx="12" cy="0" r="6" fill="#fff" />
+    </svg>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MASCOTA -->
+  <!-- ============================================================ -->
+  <div id="mascot">
+    <div class="mascot-bubble" id="mascotBubble">¡Hola! Soy Nash, tu guía. Desliza para explorar la invitación 🌊</div>
+    <img src="assets/icons/mascota.png" alt="Mascota" style="width: 100%; height: auto; display: block;">
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- HERO -->
+  <!-- ============================================================ -->
+  <header class="hero" id="hero" style="position: relative;">
+    <!-- Elementos flotantes decorativos en Hero -->
+    <div class="floater f-img-estrella" style="top: 25%; right: 8%;">
+      <img src="assets/icons/estrella.png" alt="Estrella de mar decorativa">
+    </div>
+    <div class="floater f-img-alga" style="bottom: 8%; left: -2%;">
+      <img src="assets/icons/algas.png" alt="Algas decorativas">
+    </div>
+    <div class="floater f-img-piso" style="bottom: 0; left: 0; width: 100%;">
+      <img src="assets/icons/piso.png" alt="Piso marino decorativo">
+    </div>
+
+    <div class="hero-inner" style="max-width: 90vw; width: 100%; margin: 0 auto;">
+      <span class="eyebrow">BABY SHOWER · UNA HISTORIA DE AMOR</span>
+      <h1 class="hero-title">Nashly Antonella</h1>
+      <p class="hero-subtitle-top">Una pequeña sirenita está por llegar</p>
+      <p class="hero-sub">Con el corazón lleno de olas y burbujas de alegría, queremos invitarte a celebrar la dulce
+        espera de nuestra bebé.</p>
+      <div class="hero-date-chip">
+        <span>10 · Octubre · 2026<br><b id="chipTime">4:00 PM</b></span>
+        <span>Club De Empleados Banreservas<br><b>Santo Domingo</b></span>
+      </div>
+      <div class="hero-scroll"><span>Desliza</span><span class="drop"></span></div>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- HISTORIA -->
+  <!-- ============================================================ -->
+  <section class="story reveal" id="story" style="position: relative;">
+    <!-- Algas decorativas en la Historia -->
+    <div class="floater f-img-alga" style="bottom: 10%; left: 3%;">
+      <img src="assets/icons/algas.png" alt="Algas decorativas">
+    </div>
+    <!-- Coral decorativo en la Historia -->
+    <div class="floater f-img-coral" style="top: 15%; right: -3%;">
+      <img src="assets/icons/coral.png" alt="Coral decorativo">
+    </div>
+
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Nuestra historia</span>
+        <h2>Una ola de amor está por llegar</h2>
+      </div>
+      <div class="story-card">
+        <p>Después de meses soñando con este momento, por fin sentimos las primeras oleadas de una vida nueva. Como una
+          perla que crece en secreto dentro del mar, nuestra pequeña ha estado creciendo rodeada de amor, esperando el
+          momento perfecto para salir a conocer el mundo.</p>
+        <p>Queremos que seas parte de esta celebración, rodeados de quienes más queremos, para darle la bienvenida con
+          juegos, risas y muchos deseos bonitos para su llegada.</p>
+        <div class="story-signature">Con amor, Familia Peñaloza Ruiz 🐚</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- DETALLES DEL EVENTO -->
+  <!-- ============================================================ -->
+  <section class="event-details reveal" id="details" style="position: relative;">
+    <!-- Estrella decorativa en Detalles -->
+    <div class="floater f-img-estrella" style="top: 15%; left: 5%;">
+      <img src="assets/icons/estrella.png" alt="Estrella de mar decorativa">
+    </div>
+    <!-- Algas decorativas en Detalles -->
+    <div class="floater f-img-alga" style="bottom: 15%; right: -2%;">
+      <img src="assets/icons/algas.png" alt="Algas decorativas">
+    </div>
+
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Detalles</span>
+        <h2>¿Cuándo y dónde nos sumergimos?</h2>
+        <p>Guarda la fecha y prepárate para una tarde llena de magia submarina.</p>
+      </div>
+
+      <div class="details-grid reveal-stagger">
+        <div class="detail-card" style="--i:0">
+          <div class="detail-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8">
+              <rect x="3" y="5" width="18" height="16" rx="3" />
+              <path d="M8 3v4M16 3v4M3 10h18" />
+            </svg></div>
+          <h3>Fecha</h3>
+          <p class="big">Sábado 10 de Octubre</p>
+          <p>2026</p>
+        </div>
+        <div class="detail-card" style="--i:1">
+          <div class="detail-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 3" />
+            </svg></div>
+          <h3>Hora</h3>
+          <p class="big">4:00 PM</p>
+          <p>Puntualidad apreciada 💗</p>
+        </div>
+        <div class="detail-card" style="--i:2">
+          <div class="detail-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8">
+              <path d="M12 21s-7-6.4-7-11a7 7 0 0114 0c0 4.6-7 11-7 11z" />
+              <circle cx="12" cy="10" r="2.5" />
+            </svg></div>
+          <h3>Lugar</h3>
+          <p class="big">Club De Empleados Banreservas</p>
+          <p>Av. Gregorio Luperón, Santo Domingo Oeste</p>
+        </div>
+      </div>
+
+      <div class="map-wrap reveal">
+        <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Club+de+Empleados+Banreservas+Santo+Domingo&output=embed"></iframe>
+        <div class="map-cta">
+          <span>Club De Empleados Banreservas · Av. Gregorio Luperón, Santo Domingo Oeste</span>
+          <a class="btn btn-primary" id="directionsBtn"
+            href="https://www.google.com/maps/search/?api=1&query=Club+de+Empleados+Banreservas+Santo+Domingo"
+            target="_blank" rel="noopener">
+            Cómo llegar
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- COUNTDOWN -->
+  <!-- ============================================================ -->
+  <section class="countdown-section reveal" id="countdown" style="position: relative;">
+    <!-- Coral decorativo en Cuenta Regresiva -->
+    <div class="floater f-img-coral" style="bottom: 10%; left: -4%;">
+      <img src="assets/icons/coral.png" alt="Coral decorativo">
+    </div>
+    <!-- Estrella decorativa en Cuenta Regresiva -->
+    <div class="floater f-img-estrella" style="top: 8%; right: 5%;">
+      <img src="assets/icons/estrella.png" alt="Estrella de mar decorativa">
+    </div>
+
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Cuenta regresiva</span>
+        <h2>El agua ya empieza a moverse</h2>
+      </div>
+      <div class="countdown-grid">
+        <div class="countdown-unit"><span class="countdown-num" id="cd-days">00</span><span
+            class="countdown-label">Días</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-hours">00</span><span
+            class="countdown-label">Horas</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-minutes">00</span><span
+            class="countdown-label">Minutos</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-seconds">00</span><span
+            class="countdown-label">Segundos</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- AGENDA -->
+  <!-- ============================================================ -->
+  <section class="agenda reveal" id="agenda" style="position: relative;">
+    <!-- Algas decorativas en Agenda -->
+    <div class="floater f-img-alga" style="bottom: 5%; left: -3%;">
+      <img src="assets/icons/algas.png" alt="Algas decorativas">
+    </div>
+    <!-- Coral decorativo en Agenda -->
+    <div class="floater f-img-coral" style="top: 10%; right: -2%;">
+      <img src="assets/icons/coral.png" alt="Coral decorativo">
+    </div>
+
+    <div class="container">
+      <div class="section-head" style="text-align: center; margin-bottom: 40px;">
+        <span class="eyebrow">UNA TARDE PARA RECORDAR</span>
+        <h2
+          style="font-family: var(--f-display); font-size: clamp(48px, 6vw, 72px); font-weight: normal; margin-top: 10px; margin-bottom: 0; color: #ffffff; text-shadow: 0 4px 15px rgba(91, 74, 99, 0.55), 0 0 25px rgba(187, 147, 252, 0.45);">
+          El ritmo de</h2>
+        <div
+          style="font-family: var(--f-script); font-size: clamp(56px, 8vw, 92px); color: #ffffff; margin-top: -20px; line-height: 1.1; text-shadow: 0 4px 15px rgba(91, 74, 99, 0.55), 0 0 25px rgba(187, 147, 252, 0.45);">
+          la celebración</div>
+      </div>
+
+      <div class="timeline reveal-stagger">
+        <div class="timeline-item" style="--i:0">
+          <div class="timeline-time">04:00 PM</div>
+          <div class="timeline-content">
+            <h3>Bienvenida</h3>
+            <p>Recibimos a nuestros invitados entre burbujas, perlas y sonrisas.</p>
+          </div>
+        </div>
+        <div class="timeline-item" style="--i:1">
+          <div class="timeline-time">05:00 PM</div>
+          <div class="timeline-content">
+            <h3>Celebración</h3>
+            <p>Juegos, detalles y momentos para guardar en el corazón.</p>
+          </div>
+        </div>
+        <div class="timeline-item" style="--i:2">
+          <div class="timeline-time">06:30 PM</div>
+          <div class="timeline-content">
+            <h3>Brindis por Nashly</h3>
+            <p>Un momento especial para celebrar la llegada de nuestra princesa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- GALERÍA -->
+  <!-- ============================================================ -->
+  <section class="gallery reveal" id="gallery" style="position: relative;">
+    <!-- Estrella decorativa en Galería -->
+    <div class="floater f-img-estrella" style="bottom: 10%; left: 4%;">
+      <img src="assets/icons/estrella.png" alt="Estrella de mar decorativa">
+    </div>
+    <!-- Coral decorativo en Galería -->
+    <div class="floater f-img-coral" style="top: 15%; right: 2%;">
+      <img src="assets/icons/coral.png" alt="Coral decorativo">
+    </div>
+
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Galería</span>
+        <h2>Momentos que ya amamos</h2>
+
+      </div>
+      <div class="gallery-grid reveal-stagger" id="galleryGrid">
+        <!-- Las 4 tarjetas se generan en main.js con placeholders listos para reemplazar -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- REGALOS -->
+  <!-- ============================================================ -->
+  <section class="gifts reveal" id="gifts" style="position: relative;">
+    <!-- Coral decorativo en Regalos -->
+    <div class="floater f-img-coral" style="bottom: 12%; right: 4%;">
+      <img src="assets/icons/coral.png" alt="Coral decorativo">
+    </div>
+    <!-- Algas decorativas en Regalos -->
+    <div class="floater f-img-alga" style="top: 8%; left: -3%;">
+      <img src="assets/icons/algas.png" alt="Algas decorativas">
+    </div>
+
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Regalos</span>
+        <h2>Un detalle para Nashly Antonella</h2>
+        <p>Tu presencia es el regalo más importante, pero si deseas tener un detalle extra, aquí algunas ideas.</p>
+      </div>
+      <div class="gifts-grid reveal-stagger">
+        <div class="gift-card" style="--i:0">
+          <div class="detail-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8">
+              <path d="M12 3s3 2 3 5-3 5-3 5-3-2-3-5 3-5 3-5z" />
+              <rect x="4" y="13" width="16" height="8" rx="2" />
+            </svg></div>
+          <h3>Mesa de regalos</h3>
+          <p>Contamos con una pequeña lista de deseos disponible con la familia organizadora.</p>
+        </div>
+        <div class="gift-card" style="--i:1">
+          <div class="detail-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8">
+              <path d="M12 21c-5-4-9-7-9-11a5 5 0 019-3 5 5 0 019 3c0 4-4 7-9 11z" />
+            </svg></div>
+          <h3>Contribución en efectivo</h3>
+          <p>Si prefieres, puedes colaborar con un detalle en efectivo el día del evento.</p>
+        </div>
+        <div class="gift-card" style="--i:2">
+          <div class="detail-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c0-4 4-7 8-7s8 3 8 7" />
+            </svg></div>
+          <h3>Código de vestimenta</h3>
+          <p>Tonos pastel, turquesa, coral o blanco — ¡ven vestido para nadar entre olas!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- RSVP -->
+  <!-- ============================================================ -->
+  <section class="rsvp reveal" id="rsvp" style="position: relative;">
+    <!-- Estrella decorativa en Confirmación -->
+    <div class="floater f-img-estrella" style="top: 22%; right: -2%;">
+      <img src="assets/icons/estrella.png" alt="Estrella de mar decorativa">
+    </div>
+    <!-- Coral decorativo en Confirmación -->
+    <div class="floater f-img-coral" style="bottom: 15%; left: 2%;">
+      <img src="assets/icons/coral.png" alt="Coral decorativo">
+    </div>
+
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Confirmación</span>
+        <h2>¿Nos acompañas bajo las olas?</h2>
+        <p>Tu confirmación nos ayuda a preparar cada detalle con mucho cariño.</p>
+      </div>
+
+      <div class="rsvp-card">
+        <form id="rsvpForm" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="firstName">Nombre</label>
+              <input type="text" id="firstName" name="firstName" required placeholder="Tu nombre">
+            </div>
+            <div class="field">
+              <label for="lastName">Apellido</label>
+              <input type="text" id="lastName" name="lastName" placeholder="Tu apellido">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="phone">Teléfono</label>
+              <input type="tel" id="phone" name="phone" placeholder="+1 809 000 0000">
+            </div>
+            <div class="field">
+              <label for="attendees">Cantidad de asistentes</label>
+              <select id="attendees" name="attendees">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>¿Podrás acompañarnos?</label>
+            <div class="attend-toggle" id="attendToggle">
+              <label class="attend-opt active" data-value="confirmed">
+                <input type="radio" name="status" value="confirmed" checked> Sí, asistiré 💗
+              </label>
+              <label class="attend-opt" data-value="declined">
+                <input type="radio" name="status" value="declined"> No podré asistir
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="message">Mensaje para la familia (opcional)</label>
+            <textarea id="message" name="message"
+              placeholder="Deja tus buenos deseos para Nashly Antonella..."></textarea>
+          </div>
+
+          <div class="form-error" id="formError">Por favor escribe tu nombre para confirmar.</div>
+
+          <button type="submit" class="btn btn-primary btn-block">Enviar confirmación ✦</button>
+        </form>
+
+        <div id="rsvp-success">
+          <!-- Mascota en Burbuja Mágica de Éxito -->
+          <div class="success-bubble-wrap" style="position: relative; width: 140px; height: 140px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
+            <div id="successBigBubble" class="success-big-bubble" style="position: absolute; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(187,147,252,0.2) 60%, rgba(148,237,255,0.4)); border: 2px solid rgba(255,255,255,0.8); box-shadow: 0 0 20px rgba(255,255,255,0.6), inset 0 0 15px rgba(255,255,255,0.5);"></div>
+            <img id="successMascot" src="assets/icons/mascota.png" alt="Mascota Nash" style="width: 70px; height: auto; z-index: 2; transform: scale(0.1); opacity: 0; display: block;">
+            <div id="bubbleBurst" style="position: absolute; inset: 0; pointer-events: none;"></div>
+          </div>
+          <h3>¡Gracias por confirmar!</h3>
+          <p id="successMsg">¡Gracias por acompañarnos en este momento tan especial! 💗</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+  <div class="quote-banner reveal">
+    <p>"Como las olas que nunca dejan de llegar a la orilla, así de infinito será nuestro amor por ti."</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FOOTER -->
+  <!-- ============================================================ -->
+  <footer class="reveal">
+    <span class="script">Nashly Antonella</span>
+    <p>Con todo nuestro amor, Familia Peñaloza Ruiz · Santo Domingo, República Dominicana</p>
+    <p>© 2026 · Hecho con 💗 bajo las olas</p>
+  </footer>
+
+  <a href="admin.html" class="admin-link">Panel admin</a>
+
+  <!-- ============================================================ -->
+  <!-- EASTER EGG: MODAL DE LA CONCHA -->
+  <!-- ============================================================ -->
+  <div class="egg-modal" id="eggModal">
+    <div class="egg-card">
+      <svg width="70" viewBox="0 0 200 160" fill="none">
+        <path d="M100 150C40 150 20 105 30 75C40 45 70 30 100 30C130 30 160 45 170 75C180 105 160 150 100 150Z"
+          fill="#FFD9E8" />
+      </svg>
+      <h3 class="script" style="font-size:30px;color:var(--coral-deep);">Mensaje secreto</h3>
+      <p>Gracias por explorar cada rincón de esta invitación con tanto cariño. Nashly Antonella ya te quiere mucho antes
+        de conocerte. 💗</p>
+      <button class="egg-close" id="eggClose">Cerrar</button>
+    </div>
+  </div>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- ============================================================ -->
+  <!-- LIBRERÍAS -->
+  <!-- ============================================================ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.4.4/qrcode.min.js"></script>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

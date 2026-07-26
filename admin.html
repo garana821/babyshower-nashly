@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel Admin · Baby Shower de Nashly Antonella</title>
+<link rel="icon" href="assets/icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Prata&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<div class="admin-shell">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon">🐚</span>
+      <div>
+        <strong>Nashly</strong>
+        <small>Panel de invitados</small>
+      </div>
+    </div>
+
+    <nav>
+      <a href="#" class="nav-link active" data-view="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>
+        Dashboard
+      </a>
+      <a href="#" class="nav-link" data-view="guests">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="8" r="2.6"/><path d="M15 14.2c2.6.4 4.5 2.6 4.5 5.8"/></svg>
+        Invitados
+      </a>
+      <a href="index.html" class="nav-link" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 4h6v6M10 14L20 4M18 13v5a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h5"/></svg>
+        Ver invitación
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <span id="liveDot" class="live-dot"></span>
+      <small>Actualización en vivo</small>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main>
+    <header class="topbar-admin">
+      <div>
+        <h1>Panel de invitados</h1>
+        <p>Baby Shower de Nashly Antonella · Sábado 10 de Octubre, 2026</p>
+      </div>
+      <button class="btn-primary-admin" id="addGuestBtn">+ Agregar invitado</button>
+    </header>
+
+    <!-- ===================== DASHBOARD VIEW ===================== -->
+    <section id="view-dashboard" class="view active">
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="stat-label">Invitados registrados</span>
+          <span class="stat-value" id="statTotal">0</span>
+          <span class="stat-icon">👥</span>
+        </div>
+        <div class="stat-card confirmed">
+          <span class="stat-label">Confirmados</span>
+          <span class="stat-value" id="statConfirmed">0</span>
+          <span class="stat-icon">✅</span>
+        </div>
+        <div class="stat-card pending">
+          <span class="stat-label">Pendientes</span>
+          <span class="stat-value" id="statPending">0</span>
+          <span class="stat-icon">⏳</span>
+        </div>
+        <div class="stat-card declined">
+          <span class="stat-label">No asistirán</span>
+          <span class="stat-value" id="statDeclined">0</span>
+          <span class="stat-icon">🚫</span>
+        </div>
+        <div class="stat-card rate">
+          <span class="stat-label">% Confirmado</span>
+          <span class="stat-value" id="statRate">0%</span>
+          <span class="stat-icon">📈</span>
+        </div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="panel">
+          <h3>Distribución de respuestas</h3>
+          <canvas id="pieChart" height="220"></canvas>
+        </div>
+        <div class="panel">
+          <h3>Asistentes confirmados por rango</h3>
+          <canvas id="barChart" height="220"></canvas>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Últimos registros</h3>
+        <div class="recent-list" id="recentList"></div>
+      </div>
+    </section>
+
+    <!-- ===================== GUESTS VIEW ===================== -->
+    <section id="view-guests" class="view">
+      <div class="panel">
+        <div class="table-toolbar">
+          <input type="search" id="searchInput" placeholder="Buscar por nombre o teléfono...">
+          <div class="toolbar-right">
+            <select id="statusFilter">
+              <option value="">Todos los estados</option>
+              <option value="confirmed">Confirmados</option>
+              <option value="pending">Pendientes</option>
+              <option value="declined">No asistirán</option>
+            </select>
+            <select id="sortSelect">
+              <option value="date_desc">Más recientes</option>
+              <option value="date_asc">Más antiguos</option>
+              <option value="name_asc">Nombre A–Z</option>
+              <option value="name_desc">Nombre Z–A</option>
+            </select>
+            <button class="btn-ghost-admin" id="exportCsv">Exportar CSV</button>
+            <button class="btn-ghost-admin" id="exportXlsx">Exportar Excel</button>
+            <button class="btn-ghost-admin" id="exportPdf">Exportar PDF</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table id="guestsTable">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Asistentes</th>
+                <th>Estado</th>
+                <th>Mensaje</th>
+                <th>Registrado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="guestsTbody"></tbody>
+          </table>
+          <p class="empty-state" id="emptyState" style="display:none;">No se encontraron invitados con estos filtros.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ===================== MODAL: agregar / editar invitado ===================== -->
+<div class="modal-overlay" id="guestModal">
+  <div class="modal">
+    <h3 id="modalTitle">Agregar invitado</h3>
+    <form id="guestForm">
+      <input type="hidden" id="guestId">
+      <div class="modal-row">
+        <div class="field-admin">
+          <label>Nombre</label>
+          <input type="text" id="mFirstName" required>
+        </div>
+        <div class="field-admin">
+          <label>Apellido</label>
+          <input type="text" id="mLastName">
+        </div>
+      </div>
+      <div class="modal-row">
+        <div class="field-admin">
+          <label>Teléfono</label>
+          <input type="tel" id="mPhone">
+        </div>
+        <div class="field-admin">
+          <label>Asistentes</label>
+          <input type="number" id="mAttendees" min="1" value="1">
+        </div>
+      </div>
+      <div class="field-admin">
+        <label>Estado</label>
+        <select id="mStatus">
+          <option value="confirmed">Confirmado</option>
+          <option value="pending">Pendiente</option>
+          <option value="declined">No asistirá</option>
+        </select>
+      </div>
+      <div class="field-admin">
+        <label>Mensaje</label>
+        <textarea id="mMessage" rows="3"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-ghost-admin" id="modalCancel">Cancelar</button>
+        <button type="submit" class="btn-primary-admin">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
