@@ -473,18 +473,32 @@
 
   async function fetchGifts() {
     try {
+      console.log("[Mesa de Regalos] Iniciando fetch a /api/gifts...");
       const res = await fetch(`${API_BASE}/gifts`);
+      console.log("[Mesa de Regalos] Respuesta HTTP de API:", res.status);
+      
+      if (!res.ok) {
+        console.error("[Mesa de Regalos] Error HTTP devuelto por API:", res.statusText);
+        return;
+      }
+      
       const data = await res.json();
+      console.log("[Mesa de Regalos] Regalos recibidos de base de datos:", data);
       gifts = data;
       renderGiftsTable();
     } catch (err) {
-      console.error(err);
+      console.error("[Mesa de Regalos] Excepción capturada en fetchGifts:", err);
     }
   }
 
   function renderGiftsTable() {
-    if (!giftsTbody) return;
+    console.log("[Mesa de Regalos] Elemento giftsTbody en DOM:", giftsTbody);
+    if (!giftsTbody) {
+      console.warn("[Mesa de Regalos] Advertencia: #giftsTbody no se encuentra en el DOM.");
+      return;
+    }
     
+    console.log("[Mesa de Regalos] Cantidad de regalos a renderizar:", gifts.length);
     if (gifts.length === 0) {
       giftsTbody.innerHTML = "";
       giftsEmptyState.style.display = "block";
