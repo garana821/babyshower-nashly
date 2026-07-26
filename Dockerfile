@@ -19,8 +19,8 @@ EXPOSE 5000
 # Set environment variables
 ENV PORT=5000
 ENV NODE_ENV=production
-ENV ADMIN_USER=""
-ENV ADMIN_PASSWORD=""
+ENV ADMIN_USER="admin"
+ENV ADMIN_PASSWORD="nashly11"
 
 # Run the API server
 CMD [ "node", "api/server.js" ]
