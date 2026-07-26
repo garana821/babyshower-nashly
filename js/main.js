@@ -788,6 +788,154 @@
   }
 
   /* ============================================================
+     12b. MESA DE REGALOS (POPUP, LISTAR Y RESERVAR)
+     ============================================================ */
+  const giftsModal = $("#giftsModal");
+  const openGiftsBtn = $("#openGiftsBtn");
+  const giftsCloseBtn = $("#giftsCloseBtn");
+  const giftsContainer = $("#giftsContainer");
+  const giftReserveForm = $("#giftReserveForm");
+  const selectedGiftName = $("#selectedGiftName");
+  const giftReserverName = $("#giftReserverName");
+  const confirmReserveBtn = $("#confirmReserveBtn");
+  const cancelReserveBtn = $("#cancelReserveBtn");
+
+  let selectedGiftId = null;
+  let allGifts = [];
+
+  if (openGiftsBtn) {
+    openGiftsBtn.addEventListener("click", () => {
+      giftsModal.classList.add("show");
+      loadGifts();
+    });
+  }
+
+  if (giftsCloseBtn) {
+    giftsCloseBtn.addEventListener("click", () => {
+      giftsModal.classList.remove("show");
+      resetReserveForm();
+    });
+  }
+
+  if (cancelReserveBtn) {
+    cancelReserveBtn.addEventListener("click", () => {
+      resetReserveForm();
+    });
+  }
+
+  async function loadGifts() {
+    try {
+      giftsContainer.innerHTML = '<p style="text-align: center; color: var(--ink-faint); padding: 20px 0;">Cargando regalos del mar...</p>';
+      const res = await fetch(`${API_BASE}/gifts`);
+      if (!res.ok) throw new Error("Error al obtener los regalos");
+      allGifts = await res.json();
+      renderGifts(allGifts);
+    } catch (err) {
+      console.error(err);
+      giftsContainer.innerHTML = '<p style="text-align: center; color: red; font-size: 13px; padding: 20px 0;">Error al cargar la lista de regalos. Por favor, intenta de nuevo.</p>';
+    }
+  }
+
+  function renderGifts(gifts) {
+    if (gifts.length === 0) {
+      giftsContainer.innerHTML = '<p style="text-align: center; color: var(--ink-faint); padding: 20px 0;">No hay regalos en la lista en este momento.</p>';
+      return;
+    }
+
+    giftsContainer.innerHTML = "";
+    gifts.forEach(gift => {
+      const row = document.createElement("div");
+      row.className = `gift-item-row ${gift.reserved ? "reserved" : ""}`;
+      
+      const nameCol = document.createElement("span");
+      nameCol.className = "gift-name-label";
+      nameCol.textContent = gift.name;
+
+      row.appendChild(nameCol);
+
+      if (gift.reserved) {
+        const statusCol = document.createElement("span");
+        statusCol.className = "gift-reserve-status";
+        statusCol.textContent = `Tomado por ${gift.reservedBy}`;
+        row.appendChild(statusCol);
+      } else {
+        const btnCol = document.createElement("button");
+        btnCol.className = "gift-reserve-btn";
+        btnCol.textContent = "Tomar regalo 🎁";
+        btnCol.addEventListener("click", () => {
+          showReserveForm(gift.id, gift.name);
+        });
+        row.appendChild(btnCol);
+      }
+
+      giftsContainer.appendChild(row);
+    });
+  }
+
+  function showReserveForm(id, name) {
+    selectedGiftId = id;
+    selectedGiftName.textContent = name;
+    giftReserveForm.style.display = "block";
+    giftReserverName.focus();
+    
+    // Scroll suave del modal hacia abajo para mostrar el formulario
+    setTimeout(() => {
+      const modalBody = giftsModal.querySelector(".gifts-card-modal");
+      modalBody.scrollTo({
+        top: modalBody.scrollHeight,
+        behavior: "smooth"
+      });
+    }, 100);
+  }
+
+  function resetReserveForm() {
+    selectedGiftId = null;
+    selectedGiftName.textContent = "";
+    giftReserverName.value = "";
+    giftReserveForm.style.display = "none";
+  }
+
+  if (confirmReserveBtn) {
+    confirmReserveBtn.addEventListener("click", async () => {
+      const name = giftReserverName.value.trim();
+      if (!name) {
+        alert("Por favor, ingresa tu nombre completo para reservar el regalo.");
+        giftReserverName.focus();
+        return;
+      }
+
+      confirmReserveBtn.disabled = true;
+      confirmReserveBtn.textContent = "Reservando...";
+
+      try {
+        const res = await fetch(`${API_BASE}/gifts/${selectedGiftId}/reserve`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ name })
+        });
+
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.error || "No se pudo realizar la reserva");
+        }
+
+        resetReserveForm();
+        launchConfetti();
+        if (typeof playExplosionSound === "function") playExplosionSound();
+        
+        await loadGifts();
+      } catch (err) {
+        alert("Error: " + err.message);
+      } finally {
+        confirmReserveBtn.disabled = false;
+        confirmReserveBtn.textContent = "Confirmar Reserva ✦";
+      }
+    });
+  }
+
+  /* ============================================================
      13. PWA — registro del service worker
      ============================================================ */
   if ("serviceWorker" in navigator) {

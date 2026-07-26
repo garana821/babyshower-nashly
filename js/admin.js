@@ -425,8 +425,161 @@
   }
 
   /* ============================================================
+     Mesa de Regalos (Admin)
+     ============================================================ */
+  let gifts = [];
+  const adminGiftModal = $("#adminGiftModal");
+  const adminGiftForm = $("#adminGiftForm");
+  const addGiftBtn = $("#addGiftBtn");
+  const adminGiftCancel = $("#adminGiftCancel");
+  const giftsTbody = $("#giftsTbody");
+  const giftsEmptyState = $("#giftsEmptyState");
+
+  if (addGiftBtn) {
+    addGiftBtn.addEventListener("click", () => {
+      $("#gName").value = "";
+      adminGiftModal.classList.add("show");
+    });
+  }
+
+  if (adminGiftCancel) {
+    adminGiftCancel.addEventListener("click", () => {
+      adminGiftModal.classList.remove("show");
+    });
+  }
+
+  if (adminGiftForm) {
+    adminGiftForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = $("#gName").value.trim();
+      if (!name) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/gifts/admin`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name })
+        });
+        if (!res.ok) throw new Error("No se pudo agregar el regalo");
+        
+        showToast("Regalo agregado correctamente");
+        adminGiftModal.classList.remove("show");
+        fetchGifts();
+      } catch (err) {
+        showToast(err.message);
+      }
+    });
+  }
+
+  async function fetchGifts() {
+    try {
+      const res = await fetch(`${API_BASE}/gifts`);
+      const data = await res.json();
+      gifts = data;
+      renderGiftsTable();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  function renderGiftsTable() {
+    if (!giftsTbody) return;
+    
+    if (gifts.length === 0) {
+      giftsTbody.innerHTML = "";
+      giftsEmptyState.style.display = "block";
+      return;
+    }
+    
+    giftsEmptyState.style.display = "none";
+    giftsTbody.innerHTML = "";
+
+    gifts.forEach(g => {
+      const tr = document.createElement("tr");
+
+      // Nombre
+      const tdName = document.createElement("td");
+      tdName.innerHTML = `<strong>${escapeHtml(g.name)}</strong>`;
+      tr.appendChild(tdName);
+
+      // Estado
+      const tdStatus = document.createElement("td");
+      if (g.reserved) {
+        tdStatus.innerHTML = `<span class="badge confirmed">Reservado</span>`;
+      } else {
+        tdStatus.innerHTML = `<span class="badge pending">Disponible</span>`;
+      }
+      tr.appendChild(tdStatus);
+
+      // Reservado por
+      const tdBy = document.createElement("td");
+      tdBy.textContent = g.reserved ? g.reservedBy : "—";
+      tr.appendChild(tdBy);
+
+      // Fecha Reserva
+      const tdDate = document.createElement("td");
+      tdDate.textContent = g.reserved ? formatDate(g.reservedAt) : "—";
+      tr.appendChild(tdDate);
+
+      // Acciones
+      const tdActions = document.createElement("td");
+      tdActions.style.textAlign = "right";
+      
+      if (g.reserved) {
+        const btnFree = document.createElement("button");
+        btnFree.className = "btn-ghost-admin";
+        btnFree.style.marginRight = "6px";
+        btnFree.textContent = "Liberar";
+        btnFree.addEventListener("click", () => freeGift(g.id));
+        tdActions.appendChild(btnFree);
+      }
+
+      const btnDel = document.createElement("button");
+      btnDel.className = "btn-ghost-admin danger";
+      btnDel.textContent = "Eliminar";
+      btnDel.addEventListener("click", () => deleteGift(g.id));
+      tdActions.appendChild(btnDel);
+
+      tr.appendChild(tdActions);
+      giftsTbody.appendChild(tr);
+    });
+  }
+
+  async function freeGift(id) {
+    if (!confirm("¿Seguro que deseas liberar este regalo para que esté disponible de nuevo?")) return;
+    try {
+      const res = await fetch(`${API_BASE}/gifts/admin/${id}/free`, {
+        method: "POST"
+      });
+      if (!res.ok) throw new Error("No se pudo liberar el regalo");
+      showToast("Regalo liberado");
+      fetchGifts();
+    } catch (err) {
+      showToast(err.message);
+    }
+  }
+
+  async function deleteGift(id) {
+    if (!confirm("¿Seguro que deseas eliminar este regalo de la lista?")) return;
+    try {
+      const res = await fetch(`${API_BASE}/gifts/admin/${id}`, {
+        method: "DELETE"
+      });
+      if (!res.ok) throw new Error("No se pudo eliminar el regalo");
+      showToast("Regalo eliminado");
+      fetchGifts();
+    } catch (err) {
+      showToast(err.message);
+    }
+  }
+
+  /* ============================================================
      Polling en vivo
      ============================================================ */
   fetchGuests();
-  setInterval(fetchGuests, 8000);
+  fetchGifts();
+  setInterval(() => {
+    fetchGuests();
+    fetchGifts();
+  }, 8000);
 })();

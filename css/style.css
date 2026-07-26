@@ -991,6 +991,79 @@ footer .script{ font-size: 30px; color: var(--coral-deep); display:block; margin
   padding: 10px 26px; border-radius: 999px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
 }
 
+/* Estilos de la Mesa de Regalos Modal */
+.gifts-list-container {
+  scrollbar-width: thin;
+  scrollbar-color: var(--purple-light) transparent;
+}
+.gifts-list-container::-webkit-scrollbar {
+  width: 5px;
+}
+.gifts-list-container::-webkit-scrollbar-thumb {
+  background-color: var(--purple-light);
+  border-radius: 10px;
+}
+.gift-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(187, 147, 252, 0.15);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gift-item-row:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(187, 147, 252, 0.3);
+  box-shadow: 0 4px 12px rgba(187, 147, 252, 0.08);
+}
+.gift-item-row.reserved {
+  background: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(0, 0, 0, 0.05) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.gift-name-label {
+  font-size: 15px;
+  color: var(--ink);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.gift-item-row.reserved .gift-name-label {
+  text-decoration: line-through;
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+.gift-reserve-btn {
+  background: var(--coral-soft);
+  color: var(--coral-deep);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.gift-reserve-btn:hover {
+  background: var(--coral);
+  color: white;
+  transform: scale(1.05);
+}
+.gift-reserve-status {
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.gift-reserve-status::before {
+  content: "🎁";
+}
+
 /* Confetti canvas overlay */
 #confetti-canvas{
   position: fixed; inset: 0; z-index: 1600; pointer-events: none;

@@ -31,6 +31,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="8" r="2.6"/><path d="M15 14.2c2.6.4 4.5 2.6 4.5 5.8"/></svg>
         Invitados
       </a>
+      <a href="#" class="nav-link" data-view="gifts">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7a3 3 0 01-3-3 3 3 0 013-3 3 3 0 013 3 3 3 0 01-3 3z"/></svg>
+        Mesa de Regalos
+      </a>
       <a href="index.html" class="nav-link" target="_blank">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 4h6v6M10 14L20 4M18 13v5a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h5"/></svg>
         Ver invitación
@@ -143,6 +147,33 @@
           <p class="empty-state" id="emptyState" style="display:none;">No se encontraron invitados con estos filtros.</p>
         </div>
       </div>
+    <!-- ===================== GIFTS VIEW ===================== -->
+    <section id="view-gifts" class="view">
+      <div class="panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <h3>Mesa de Regalos</h3>
+            <p style="font-size: 13.5px; color: var(--ink-soft); margin-top: 4px;">Lista de regalos del baby shower y su estado de reserva.</p>
+          </div>
+          <button class="btn-primary-admin" id="addGiftBtn">+ Agregar regalo</button>
+        </div>
+
+        <div class="table-wrap">
+          <table id="giftsTable">
+            <thead>
+              <tr>
+                <th>Nombre del Regalo</th>
+                <th>Estado</th>
+                <th>Reservado por</th>
+                <th>Fecha de Reserva</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="giftsTbody"></tbody>
+          </table>
+          <p class="empty-state" id="giftsEmptyState" style="display:none;">No hay regalos en la lista en este momento.</p>
+        </div>
+      </div>
     </section>
   </main>
 </div>
@@ -187,6 +218,23 @@
       </div>
       <div class="modal-actions">
         <button type="button" class="btn-ghost-admin" id="modalCancel">Cancelar</button>
+        <button type="submit" class="btn-primary-admin">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: agregar regalo ===================== -->
+<div class="modal-overlay" id="adminGiftModal">
+  <div class="modal" style="max-width: 400px;">
+    <h3>Agregar Regalo</h3>
+    <form id="adminGiftForm">
+      <div class="field-admin" style="margin-bottom: 20px;">
+        <label>Nombre del regalo</label>
+        <input type="text" id="gName" required placeholder="Ej: Cuna de viaje, Pañales, etc." style="width: 100%; box-sizing: border-box;">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-ghost-admin" id="adminGiftCancel">Cancelar</button>
         <button type="submit" class="btn-primary-admin">Guardar</button>
       </div>
     </form>

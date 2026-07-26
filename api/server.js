@@ -121,6 +121,74 @@ api.post("/guests", (req, res) => {
   res.status(201).json(guest);
 });
 
+// ---------- Mesa de Regalos ----------
+
+function getDefaultGifts() {
+  const list = [
+    "Bañera para bebé",
+    "Termómetro de baño",
+    "Juego de sábanas para cuna",
+    "Mantitas de algodón",
+    "Cojín de lactancia",
+    "Bolso cambiador",
+    "Set de biberones",
+    "Calentador de biberones",
+    "Extractor de leche",
+    "Neceser de aseo (cepillo, cortaúñas)",
+    "Termómetro digital infantil",
+    "Sonajeros y juguetes de dentición",
+    "Baberos de algodón (varios)",
+    "Pañales Talla RN (Recién Nacido)",
+    "Pañales Talla P",
+    "Pañales Talla M",
+    "Toallitas húmedas (pack)",
+    "Mamelucos y bodys (0-3 meses)",
+    "Mamelucos y bodys (3-6 meses)",
+    "Cochecito de bebé",
+    "Cuna de viaje"
+  ];
+  return list.map((name, index) => ({
+    id: `gift-${index + 1}`,
+    name,
+    reserved: false,
+    reservedBy: ""
+  }));
+}
+
+// Obtener lista de regalos
+api.get("/gifts", (req, res) => {
+  const db = readDB();
+  if (!db.gifts) {
+    db.gifts = getDefaultGifts();
+    writeDB(db);
+  }
+  res.json(db.gifts);
+});
+
+// Reservar un regalo
+api.post("/gifts/:id/reserve", (req, res) => {
+  const { name } = req.body;
+  if (!name || !name.trim()) {
+    return res.status(400).json({ error: "El nombre de la persona que reserva es obligatorio" });
+  }
+
+  const db = readDB();
+  if (!db.gifts) {
+    db.gifts = getDefaultGifts();
+  }
+
+  const gift = db.gifts.find(g => g.id === req.params.id);
+  if (!gift) return res.status(404).json({ error: "Regalo no encontrado" });
+  if (gift.reserved) return res.status(400).json({ error: "Este regalo ya está reservado" });
+
+  gift.reserved = true;
+  gift.reservedBy = name.trim();
+  gift.reservedAt = new Date().toISOString();
+
+  writeDB(db);
+  res.json(gift);
+});
+
 // --- Rutas protegidas por autenticación básica ---
 api.use(adminAuth);
 
@@ -207,6 +275,59 @@ api.delete("/guests/:id", (req, res) => {
   const [removed] = db.guests.splice(idx, 1);
   writeDB(db);
   res.json(removed);
+});
+
+// --- Métodos de administración para Mesa de Regalos ---
+
+// Crear regalo (Admin)
+api.post("/gifts/admin", (req, res) => {
+  const { name } = req.body;
+  if (!name || !name.trim()) {
+    return res.status(400).json({ error: "El nombre del regalo es obligatorio" });
+  }
+
+  const db = readDB();
+  if (!db.gifts) db.gifts = getDefaultGifts();
+
+  const newGift = {
+    id: "gift-" + crypto.randomBytes(3).toString("hex"),
+    name: name.trim(),
+    reserved: false,
+    reservedBy: ""
+  };
+
+  db.gifts.push(newGift);
+  writeDB(db);
+  res.status(201).json(newGift);
+});
+
+// Eliminar regalo (Admin)
+api.delete("/gifts/admin/:id", (req, res) => {
+  const db = readDB();
+  if (!db.gifts) db.gifts = getDefaultGifts();
+
+  const idx = db.gifts.findIndex(g => g.id === req.params.id);
+  if (idx === -1) return res.status(404).json({ error: "Regalo no encontrado" });
+
+  const [removed] = db.gifts.splice(idx, 1);
+  writeDB(db);
+  res.json(removed);
+});
+
+// Liberar / Desmarcar regalo reservado (Admin)
+api.post("/gifts/admin/:id/free", (req, res) => {
+  const db = readDB();
+  if (!db.gifts) db.gifts = getDefaultGifts();
+
+  const gift = db.gifts.find(g => g.id === req.params.id);
+  if (!gift) return res.status(404).json({ error: "Regalo no encontrado" });
+
+  gift.reserved = false;
+  gift.reservedBy = "";
+  if (gift.reservedAt) delete gift.reservedAt;
+
+  writeDB(db);
+  res.json(gift);
 });
 
 // Estadísticas para el dashboard
