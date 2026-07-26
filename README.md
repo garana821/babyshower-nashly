@@ -1,4 +1,4 @@
-# 🐚 Baby Shower de Emilia — "Bajo las Olas"
+# 🐚 Baby Shower de Nashly — "Bajo las Olas"
 
 Invitación digital premium con temática marina (niña), panel de administración
 de invitados y una API sencilla en Node.js + Express con base de datos en
