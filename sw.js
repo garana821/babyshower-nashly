@@ -1,4 +1,4 @@
-const CACHE_NAME = "baby-shower-nashly-v9";
+const CACHE_NAME = "baby-shower-nashly-v10";
 const PRECACHE = [
   "/",
   "/index.html",
@@ -30,16 +30,16 @@ self.addEventListener("fetch", (event) => {
   // La API y las peticiones POST/PUT/DELETE nunca se cachean, ni tampoco esquemas no-HTTP
   if (request.method !== "GET" || request.url.includes("/api/") || !request.url.startsWith("http")) return;
 
+  // Estrategia Network-First con respaldo en caché (garantiza ver cambios al estar online)
   event.respondWith(
-    caches.match(request).then((cached) => {
-      const network = fetch(request)
-        .then((response) => {
+    fetch(request)
+      .then((response) => {
+        if (response && response.status === 200 && response.type === "basic") {
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-          return response;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
+        }
+        return response;
+      })
+      .catch(() => caches.match(request))
   );
 });

@@ -1467,6 +1467,19 @@ h1, h2, h3, h4,
   font-weight: 400 !important;
 }
 
+/* Excepción: Títulos dentro de la Mesa de Regalos Modal (morados con sombra blanca) */
+.gifts-card-modal h3,
+.gifts-card-modal h4,
+#giftsModal h3,
+#giftsModal h4,
+#giftsMainView h3,
+#giftsMainView h4,
+#giftsSuccessView h3,
+#giftsSuccessView h4 {
+  color: #5c3285 !important;
+  text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important;
+}
+
 /* Cejas/subtítulos pequeños destacados en morado con sombra blanca */
 .eyebrow, .timeline-time, .countdown-unit span {
   color: #5c3285 !important;
