@@ -1594,11 +1594,14 @@ footer p {
 
 /* Forzar visibilidad y color morado para títulos en el modal de regalos */
 #giftsModal h3,
-#giftsModal h4 {
+#giftsModal h4,
+.gifts-card-modal h3,
+.gifts-card-modal h4 {
   color: #5c3285 !important;
   text-shadow: none !important;
 }
-#giftsModal h4 #selectedGiftCount {
+#giftsModal h4 #selectedGiftCount,
+.gifts-card-modal h4 #selectedGiftCount {
   color: var(--coral-deep) !important;
   text-shadow: none !important;
   font-weight: bold !important;
