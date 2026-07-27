@@ -18,5 +18,167 @@
       "message": "",
       "createdAt": "2026-07-17T23:18:49.770Z"
     }
+  ],
+  "gifts": [
+    {
+      "id": "gift-1",
+      "name": "Silla alta de comer para bebé",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-2",
+      "name": "Mecedora / Sillón de lactancia",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-3",
+      "name": "Corral cuna de viaje",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-4",
+      "name": "Bolso pañalera cambiador",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-5",
+      "name": "Silla de seguridad para carro",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-6",
+      "name": "Cochecito de bebé / Silla de paseo",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-7",
+      "name": "Almohada / Cojín de lactancia",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-8",
+      "name": "Set de biberones anticólicos y tetinas",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-9",
+      "name": "Cambiador portátil acolchado",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-10",
+      "name": "Esterilizador de biberones",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-11",
+      "name": "Procesador / Licuadora Baby Bullet",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-12",
+      "name": "Almohada de embarazo para dormir",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-13",
+      "name": "Extractor de leche (Saca leches) eléctrico",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-14",
+      "name": "Calentador de biberones rápido",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-15",
+      "name": "Bañera para bebé con soporte",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": false,
+      "reservations": []
+    },
+    {
+      "id": "gift-16",
+      "name": "Pañales Talla RN (Recién Nacido)",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": true,
+      "reservations": []
+    },
+    {
+      "id": "gift-17",
+      "name": "Pañales Talla P (Pequeño)",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": true,
+      "reservations": []
+    },
+    {
+      "id": "gift-18",
+      "name": "Pañales Talla M (Mediano)",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": true,
+      "reservations": []
+    },
+    {
+      "id": "gift-19",
+      "name": "Pañales Talla G (Grande)",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": true,
+      "reservations": []
+    },
+    {
+      "id": "gift-20",
+      "name": "Toallitas húmedas para bebé (Packs)",
+      "reserved": false,
+      "reservedBy": "",
+      "unlimited": true,
+      "reservations": []
+    }
   ]
 }

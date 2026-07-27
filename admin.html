@@ -230,9 +230,13 @@
   <div class="modal" style="max-width: 400px;">
     <h3>Agregar Regalo</h3>
     <form id="adminGiftForm">
-      <div class="field-admin" style="margin-bottom: 20px;">
+      <div class="field-admin" style="margin-bottom: 15px;">
         <label>Nombre del regalo</label>
         <input type="text" id="gName" required placeholder="Ej: Cuna de viaje, Pañales, etc." style="width: 100%; box-sizing: border-box;">
+      </div>
+      <div class="field-admin" style="margin-bottom: 20px; display: flex; flex-direction: row; align-items: center; gap: 8px;">
+        <input type="checkbox" id="gUnlimited" style="width: auto; margin: 0; cursor: pointer;">
+        <label for="gUnlimited" style="margin: 0; cursor: pointer; text-transform: none; font-size: 13px;">Disponible múltiple (ej. pañales)</label>
       </div>
       <div class="modal-actions">
         <button type="button" class="btn-ghost-admin" id="adminGiftCancel">Cancelar</button>

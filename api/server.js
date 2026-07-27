@@ -125,34 +125,39 @@ api.post("/guests", (req, res) => {
 
 function getDefaultGifts() {
   const list = [
-    "Bañera para bebé",
-    "Termómetro de baño",
-    "Juego de sábanas para cuna",
-    "Mantitas de algodón",
-    "Cojín de lactancia",
-    "Bolso cambiador",
-    "Set de biberones",
-    "Calentador de biberones",
-    "Extractor de leche",
-    "Neceser de aseo (cepillo, cortaúñas)",
-    "Termómetro digital infantil",
-    "Sonajeros y juguetes de dentición",
-    "Baberos de algodón (varios)",
+    "Silla alta de comer para bebé",
+    "Mecedora / Sillón de lactancia",
+    "Corral cuna de viaje",
+    "Bolso pañalera cambiador",
+    "Silla de seguridad para carro",
+    "Cochecito de bebé / Silla de paseo",
+    "Almohada / Cojín de lactancia",
+    "Set de biberones anticólicos y tetinas",
+    "Cambiador portátil acolchado",
+    "Esterilizador de biberones",
+    "Procesador / Licuadora Baby Bullet",
+    "Almohada de embarazo para dormir",
+    "Extractor de leche (Saca leches) eléctrico",
+    "Calentador de biberones rápido",
+    "Bañera para bebé con soporte",
     "Pañales Talla RN (Recién Nacido)",
-    "Pañales Talla P",
-    "Pañales Talla M",
-    "Toallitas húmedas (pack)",
-    "Mamelucos y bodys (0-3 meses)",
-    "Mamelucos y bodys (3-6 meses)",
-    "Cochecito de bebé",
-    "Cuna de viaje"
+    "Pañales Talla P (Pequeño)",
+    "Pañales Talla M (Mediano)",
+    "Pañales Talla G (Grande)",
+    "Toallitas húmedas para bebé (Packs)"
   ];
-  return list.map((name, index) => ({
-    id: `gift-${index + 1}`,
-    name,
-    reserved: false,
-    reservedBy: ""
-  }));
+  return list.map((name, index) => {
+    const nameLower = name.toLowerCase();
+    const isUnlimited = (nameLower.includes("pañal") || nameLower.includes("pamper") || nameLower.includes("toallit") || nameLower.includes("toalla")) && !nameLower.includes("pañalera");
+    return {
+      id: `gift-${index + 1}`,
+      name,
+      reserved: false,
+      reservedBy: "",
+      unlimited: isUnlimited,
+      reservations: []
+    };
+  });
 }
 
 // Obtener lista de regalos
@@ -161,6 +166,38 @@ api.get("/gifts", (req, res) => {
   if (!db.gifts) {
     db.gifts = getDefaultGifts();
     writeDB(db);
+  } else {
+    // Migración: asegurar que los regalos existentes tengan el flag unlimited y el array de reservas
+    let updated = false;
+    db.gifts.forEach(gift => {
+      const nameLower = gift.name.toLowerCase();
+      const shouldBeUnlimited = gift.unlimited || ((nameLower.includes("pañal") || nameLower.includes("pamper") || nameLower.includes("toallit") || nameLower.includes("toalla")) && !nameLower.includes("pañalera"));
+      if (gift.unlimited !== shouldBeUnlimited) {
+        gift.unlimited = shouldBeUnlimited;
+        updated = true;
+      }
+      if (gift.unlimited) {
+        if (!gift.reservations) {
+          gift.reservations = [];
+          if (gift.reserved && gift.reservedBy) {
+            gift.reservations.push({
+              reservedBy: gift.reservedBy,
+              reservedAt: gift.reservedAt || new Date().toISOString()
+            });
+          }
+          updated = true;
+        }
+        if (gift.reserved) {
+          gift.reserved = false;
+          gift.reservedBy = "";
+          if (gift.reservedAt) delete gift.reservedAt;
+          updated = true;
+        }
+      }
+    });
+    if (updated) {
+      writeDB(db);
+    }
   }
   res.json(db.gifts);
 });
@@ -179,11 +216,22 @@ api.post("/gifts/:id/reserve", (req, res) => {
 
   const gift = db.gifts.find(g => g.id === req.params.id);
   if (!gift) return res.status(404).json({ error: "Regalo no encontrado" });
-  if (gift.reserved) return res.status(400).json({ error: "Este regalo ya está reservado" });
 
-  gift.reserved = true;
-  gift.reservedBy = name.trim();
-  gift.reservedAt = new Date().toISOString();
+  if (gift.unlimited) {
+    if (!gift.reservations) gift.reservations = [];
+    gift.reservations.push({
+      reservedBy: name.trim(),
+      reservedAt: new Date().toISOString()
+    });
+    gift.reserved = false;
+    gift.reservedBy = "";
+    if (gift.reservedAt) delete gift.reservedAt;
+  } else {
+    if (gift.reserved) return res.status(400).json({ error: "Este regalo ya está reservado" });
+    gift.reserved = true;
+    gift.reservedBy = name.trim();
+    gift.reservedAt = new Date().toISOString();
+  }
 
   writeDB(db);
   res.json(gift);
@@ -281,7 +329,7 @@ api.delete("/guests/:id", (req, res) => {
 
 // Crear regalo (Admin)
 api.post("/gifts/admin", (req, res) => {
-  const { name } = req.body;
+  const { name, unlimited } = req.body;
   if (!name || !name.trim()) {
     return res.status(400).json({ error: "El nombre del regalo es obligatorio" });
   }
@@ -289,11 +337,16 @@ api.post("/gifts/admin", (req, res) => {
   const db = readDB();
   if (!db.gifts) db.gifts = getDefaultGifts();
 
+  const nameLower = name.toLowerCase();
+  const isUnlimited = !!unlimited || ((nameLower.includes("pañal") || nameLower.includes("pamper") || nameLower.includes("toallit") || nameLower.includes("toalla")) && !nameLower.includes("pañalera"));
+
   const newGift = {
     id: "gift-" + crypto.randomBytes(3).toString("hex"),
     name: name.trim(),
     reserved: false,
-    reservedBy: ""
+    reservedBy: "",
+    unlimited: isUnlimited,
+    reservations: []
   };
 
   db.gifts.push(newGift);
@@ -316,15 +369,24 @@ api.delete("/gifts/admin/:id", (req, res) => {
 
 // Liberar / Desmarcar regalo reservado (Admin)
 api.post("/gifts/admin/:id/free", (req, res) => {
+  const { reservationIndex } = req.body;
   const db = readDB();
   if (!db.gifts) db.gifts = getDefaultGifts();
 
   const gift = db.gifts.find(g => g.id === req.params.id);
   if (!gift) return res.status(404).json({ error: "Regalo no encontrado" });
 
-  gift.reserved = false;
-  gift.reservedBy = "";
-  if (gift.reservedAt) delete gift.reservedAt;
+  if (gift.unlimited) {
+    if (gift.reservations && reservationIndex !== undefined && reservationIndex >= 0 && reservationIndex < gift.reservations.length) {
+      gift.reservations.splice(reservationIndex, 1);
+    } else {
+      gift.reservations = [];
+    }
+  } else {
+    gift.reserved = false;
+    gift.reservedBy = "";
+    if (gift.reservedAt) delete gift.reservedAt;
+  }
 
   writeDB(db);
   res.json(gift);

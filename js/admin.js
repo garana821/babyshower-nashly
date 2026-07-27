@@ -438,6 +438,7 @@
   if (addGiftBtn) {
     addGiftBtn.addEventListener("click", () => {
       $("#gName").value = "";
+      if ($("#gUnlimited")) $("#gUnlimited").checked = false;
       adminGiftModal.classList.add("show");
     });
   }
@@ -445,6 +446,7 @@
   if (adminGiftCancel) {
     adminGiftCancel.addEventListener("click", () => {
       adminGiftModal.classList.remove("show");
+      if ($("#gUnlimited")) $("#gUnlimited").checked = false;
     });
   }
 
@@ -452,18 +454,20 @@
     adminGiftForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const name = $("#gName").value.trim();
+      const unlimited = $("#gUnlimited") ? $("#gUnlimited").checked : false;
       if (!name) return;
 
       try {
         const res = await fetch(`${API_BASE}/gifts/admin`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name })
+          body: JSON.stringify({ name, unlimited })
         });
         if (!res.ok) throw new Error("No se pudo agregar el regalo");
         
         showToast("Regalo agregado correctamente");
         adminGiftModal.classList.remove("show");
+        if ($("#gUnlimited")) $("#gUnlimited").checked = false;
         fetchGifts();
       } catch (err) {
         showToast(err.message);
@@ -490,6 +494,23 @@
       console.error("[Mesa de Regalos] Excepción capturada en fetchGifts:", err);
     }
   }
+
+  // Hacer esta función global para poder llamarla desde el atributo onclick de los elementos generados
+  window.freeGiftReservation = async function (giftId, index, name) {
+    if (!confirm(`¿Seguro que deseas eliminar la reserva de "${name}"?`)) return;
+    try {
+      const res = await fetch(`${API_BASE}/gifts/admin/${giftId}/free`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reservationIndex: index })
+      });
+      if (!res.ok) throw new Error("No se pudo liberar la reserva");
+      showToast(`Reserva de ${name} eliminada`);
+      fetchGifts();
+    } catch (err) {
+      showToast(err.message);
+    }
+  };
 
   function renderGiftsTable() {
     console.log("[Mesa de Regalos] Elemento giftsTbody en DOM:", giftsTbody);
@@ -518,34 +539,76 @@
 
       // Estado
       const tdStatus = document.createElement("td");
-      if (g.reserved) {
-        tdStatus.innerHTML = `<span class="badge confirmed">Reservado</span>`;
+      if (g.unlimited) {
+        const count = g.reservations ? g.reservations.length : 0;
+        if (count > 0) {
+          tdStatus.innerHTML = `<span class="badge confirmed" style="background:#E8E4FC; color:#6F5FA3;">Ilimitado (${count})</span>`;
+        } else {
+          tdStatus.innerHTML = `<span class="badge pending" style="background:#E3F5F8; color:#3F8B9B;">Ilimitado (0)</span>`;
+        }
       } else {
-        tdStatus.innerHTML = `<span class="badge pending">Disponible</span>`;
+        if (g.reserved) {
+          tdStatus.innerHTML = `<span class="badge confirmed">Reservado</span>`;
+        } else {
+          tdStatus.innerHTML = `<span class="badge pending">Disponible</span>`;
+        }
       }
       tr.appendChild(tdStatus);
 
       // Reservado por
       const tdBy = document.createElement("td");
-      tdBy.textContent = g.reserved ? g.reservedBy : "—";
+      if (g.unlimited) {
+        if (g.reservations && g.reservations.length > 0) {
+          const listHtml = g.reservations.map((r, idx) => {
+            return `<div style="margin-bottom: 4px; display: flex; align-items: center; gap: 8px;">
+              <span>• ${escapeHtml(r.reservedBy)}</span>
+              <button class="btn-ghost-admin danger" style="padding: 2px 6px; font-size: 10px; border-radius: 4px; line-height: 1; display: inline-flex; align-items: center;" onclick="window.freeGiftReservation('${g.id}', ${idx}, '${escapeHtml(r.reservedBy)}')">✕</button>
+            </div>`;
+          }).join("");
+          tdBy.innerHTML = listHtml;
+        } else {
+          tdBy.textContent = "—";
+        }
+      } else {
+        tdBy.textContent = g.reserved ? g.reservedBy : "—";
+      }
       tr.appendChild(tdBy);
 
       // Fecha Reserva
       const tdDate = document.createElement("td");
-      tdDate.textContent = g.reserved ? formatDate(g.reservedAt) : "—";
+      if (g.unlimited) {
+        if (g.reservations && g.reservations.length > 0) {
+          tdDate.innerHTML = g.reservations.map(r => `<div style="margin-bottom: 4px;">${formatDate(r.reservedAt)}</div>`).join("");
+        } else {
+          tdDate.textContent = "—";
+        }
+      } else {
+        tdDate.textContent = g.reserved ? formatDate(g.reservedAt) : "—";
+      }
       tr.appendChild(tdDate);
 
       // Acciones
       const tdActions = document.createElement("td");
       tdActions.style.textAlign = "right";
       
-      if (g.reserved) {
-        const btnFree = document.createElement("button");
-        btnFree.className = "btn-ghost-admin";
-        btnFree.style.marginRight = "6px";
-        btnFree.textContent = "Liberar";
-        btnFree.addEventListener("click", () => freeGift(g.id));
-        tdActions.appendChild(btnFree);
+      if (g.unlimited) {
+        if (g.reservations && g.reservations.length > 0) {
+          const btnFree = document.createElement("button");
+          btnFree.className = "btn-ghost-admin";
+          btnFree.style.marginRight = "6px";
+          btnFree.textContent = "Liberar Todo";
+          btnFree.addEventListener("click", () => freeGift(g.id));
+          tdActions.appendChild(btnFree);
+        }
+      } else {
+        if (g.reserved) {
+          const btnFree = document.createElement("button");
+          btnFree.className = "btn-ghost-admin";
+          btnFree.style.marginRight = "6px";
+          btnFree.textContent = "Liberar";
+          btnFree.addEventListener("click", () => freeGift(g.id));
+          tdActions.appendChild(btnFree);
+        }
       }
 
       const btnDel = document.createElement("button");
