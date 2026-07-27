@@ -799,12 +799,22 @@
   const giftReserverName = $("#giftReserverName");
   const confirmReserveBtn = $("#confirmReserveBtn");
   const cancelReserveBtn = $("#cancelReserveBtn");
+  const giftsMainView = $("#giftsMainView");
+  const giftsSuccessView = $("#giftsSuccessView");
+  const giftsSuccessCloseBtn = $("#giftsSuccessCloseBtn");
+  const reservedSummaryList = $("#reservedSummaryList");
 
   let allGifts = [];
   let selectedGiftIds = [];
 
+  function escapeHtml(str) {
+    return String(str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
   if (openGiftsBtn) {
     openGiftsBtn.addEventListener("click", () => {
+      if (giftsMainView) giftsMainView.style.display = "block";
+      if (giftsSuccessView) giftsSuccessView.style.display = "none";
       giftsModal.classList.add("show");
       loadGifts();
     });
@@ -813,6 +823,15 @@
   if (giftsCloseBtn) {
     giftsCloseBtn.addEventListener("click", () => {
       giftsModal.classList.remove("show");
+      resetReserveForm();
+    });
+  }
+
+  if (giftsSuccessCloseBtn) {
+    giftsSuccessCloseBtn.addEventListener("click", () => {
+      giftsModal.classList.remove("show");
+      if (giftsMainView) giftsMainView.style.display = "block";
+      if (giftsSuccessView) giftsSuccessView.style.display = "none";
       resetReserveForm();
     });
   }
@@ -972,7 +991,24 @@
           throw new Error(errData.error || "No se pudo realizar la reserva");
         }
 
+        // Obtener nombres de los regalos seleccionados para mostrarlos en el resumen
+        const reservedGiftsList = allGifts.filter(g => selectedGiftIds.includes(g.id));
+
+        if (reservedSummaryList) {
+          reservedSummaryList.innerHTML = reservedGiftsList.map(g => `
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #5c3285; font-weight: 500;">
+              <span style="color: var(--coral-deep); font-size: 16px;">🎁</span> <span>${escapeHtml(g.name)}</span>
+            </div>
+          `).join("");
+        }
+
         resetReserveForm();
+
+        // Mostrar pantalla de éxito con el resumen en vez de re-mostrar la lista completa
+        if (giftsMainView) giftsMainView.style.display = "none";
+        if (giftsSuccessView) giftsSuccessView.style.display = "block";
+
+        // Animaciones de celebración
         launchConfetti();
         if (typeof playExplosionSound === "function") playExplosionSound();
         
@@ -982,7 +1018,6 @@
           if (modalBody) modalBody.scrollTo({ top: 0, behavior: "smooth" });
         }, 100);
 
-        await loadGifts();
       } catch (err) {
         alert("Error: " + err.message);
       } finally {
