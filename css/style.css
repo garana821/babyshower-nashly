@@ -1598,11 +1598,11 @@ footer p {
 .gifts-card-modal h3,
 .gifts-card-modal h4 {
   color: #5c3285 !important;
-  text-shadow: none !important;
+  text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important;
 }
 #giftsModal h4 #selectedGiftCount,
 .gifts-card-modal h4 #selectedGiftCount {
-  color: var(--coral-deep) !important;
-  text-shadow: none !important;
+  color: #D05375 !important;
+  text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important;
   font-weight: bold !important;
 }
