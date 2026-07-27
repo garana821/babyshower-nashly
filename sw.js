@@ -1,4 +1,4 @@
-const CACHE_NAME = "baby-shower-nashly-v4";
+const CACHE_NAME = "baby-shower-nashly-v5";
 const PRECACHE = [
   "/",
   "/index.html",

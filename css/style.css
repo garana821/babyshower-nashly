@@ -1592,5 +1592,14 @@ footer p {
   text-shadow: 0 2px 8px rgba(91, 74, 99, 0.95), 0 0 12px rgba(140, 92, 214, 0.75) !important;
 }
 
-
-
+/* Forzar visibilidad y color morado para títulos en el modal de regalos */
+#giftsModal h3,
+#giftsModal h4 {
+  color: #5c3285 !important;
+  text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important;
+}
+#giftsModal h4 #selectedGiftCount {
+  color: var(--coral-deep) !important;
+  text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important;
+  font-weight: bold !important;
+}

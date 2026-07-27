@@ -801,6 +801,7 @@
   const cancelReserveBtn = $("#cancelReserveBtn");
 
   let allGifts = [];
+  let selectedGiftIds = [];
 
   if (openGiftsBtn) {
     openGiftsBtn.addEventListener("click", () => {
@@ -874,41 +875,43 @@
         row.appendChild(statusCol);
       } else {
         // Disponibles
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.className = "gift-check";
-        checkbox.dataset.id = gift.id;
-        checkbox.dataset.name = gift.name;
-        checkbox.style.width = "18px";
-        checkbox.style.height = "18px";
-        checkbox.style.cursor = "pointer";
-        checkbox.style.accentColor = "var(--coral-deep)";
-        checkbox.addEventListener("change", () => {
-          updateSelectedCount();
-        });
-        leftPart.appendChild(checkbox);
-
         const nameLabel = document.createElement("span");
         nameLabel.className = "gift-name-label";
         nameLabel.textContent = gift.name;
-        nameLabel.style.cursor = "pointer";
-        nameLabel.addEventListener("click", () => {
-          checkbox.checked = !checkbox.checked;
-          updateSelectedCount();
-        });
         leftPart.appendChild(nameLabel);
         row.appendChild(leftPart);
 
-        if (gift.unlimited) {
-          const badge = document.createElement("span");
-          badge.style.fontSize = "10px";
-          badge.style.background = "rgba(187, 147, 252, 0.15)";
-          badge.style.color = "var(--purple-deep)";
-          badge.style.padding = "2px 6px";
-          badge.style.borderRadius = "4px";
-          badge.textContent = "Múltiple";
-          row.appendChild(badge);
+        const btnCol = document.createElement("button");
+        btnCol.className = "gift-reserve-btn";
+        
+        const isSelected = selectedGiftIds.includes(gift.id);
+        if (isSelected) {
+          btnCol.textContent = "Seleccionado ✓";
+          btnCol.style.background = "#E4D8FB"; // Lavender
+          btnCol.style.color = "#5c3285"; // Purple deep
+          btnCol.classList.add("selected");
+        } else {
+          btnCol.textContent = "Tomar regalo 🎁";
         }
+        
+        btnCol.addEventListener("click", () => {
+          const idx = selectedGiftIds.indexOf(gift.id);
+          if (idx > -1) {
+            selectedGiftIds.splice(idx, 1);
+            btnCol.textContent = "Tomar regalo 🎁";
+            btnCol.style.background = "";
+            btnCol.style.color = "";
+            btnCol.classList.remove("selected");
+          } else {
+            selectedGiftIds.push(gift.id);
+            btnCol.textContent = "Seleccionado ✓";
+            btnCol.style.background = "#E4D8FB";
+            btnCol.style.color = "#5c3285";
+            btnCol.classList.add("selected");
+          }
+          updateSelectedCount();
+        });
+        row.appendChild(btnCol);
       }
 
       giftsContainer.appendChild(row);
@@ -918,8 +921,7 @@
   }
 
   function updateSelectedCount() {
-    const checked = Array.from(document.querySelectorAll(".gift-check:checked"));
-    const count = checked.length;
+    const count = selectedGiftIds.length;
     
     if (selectedGiftCount) selectedGiftCount.textContent = count;
     
@@ -935,8 +937,8 @@
   function resetReserveForm() {
     giftReserverName.value = "";
     giftReserveForm.style.display = "none";
-    document.querySelectorAll(".gift-check").forEach(cb => cb.checked = false);
-    updateSelectedCount();
+    selectedGiftIds = [];
+    renderGifts(allGifts);
   }
 
   if (confirmReserveBtn) {
@@ -948,10 +950,7 @@
         return;
       }
 
-      const checkedBoxes = Array.from(document.querySelectorAll(".gift-check:checked"));
-      const giftIds = checkedBoxes.map(cb => cb.dataset.id);
-      
-      if (giftIds.length === 0) {
+      if (selectedGiftIds.length === 0) {
         alert("Por favor, selecciona al menos un regalo.");
         return;
       }
@@ -965,7 +964,7 @@
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ name, giftIds })
+          body: JSON.stringify({ name, giftIds: selectedGiftIds })
         });
 
         if (!res.ok) {
