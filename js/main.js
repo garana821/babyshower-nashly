@@ -795,12 +795,11 @@
   const giftsCloseBtn = $("#giftsCloseBtn");
   const giftsContainer = $("#giftsContainer");
   const giftReserveForm = $("#giftReserveForm");
-  const selectedGiftName = $("#selectedGiftName");
+  const selectedGiftCount = $("#selectedGiftCount");
   const giftReserverName = $("#giftReserverName");
   const confirmReserveBtn = $("#confirmReserveBtn");
   const cancelReserveBtn = $("#cancelReserveBtn");
 
-  let selectedGiftId = null;
   let allGifts = [];
 
   if (openGiftsBtn) {
@@ -846,53 +845,98 @@
     gifts.forEach(gift => {
       const row = document.createElement("div");
       row.className = `gift-item-row ${gift.reserved ? "reserved" : ""}`;
+      row.style.display = "flex";
+      row.style.alignItems = "center";
+      row.style.justifyContent = "space-between";
+      row.style.padding = "10px 0";
+      row.style.borderBottom = "1px solid rgba(0,0,0,0.05)";
       
-      const nameCol = document.createElement("span");
-      nameCol.className = "gift-name-label";
-      nameCol.textContent = gift.name;
-
-      row.appendChild(nameCol);
+      const leftPart = document.createElement("div");
+      leftPart.style.display = "flex";
+      leftPart.style.alignItems = "center";
+      leftPart.style.gap = "10px";
 
       if (gift.reserved) {
+        // Reservados
+        const nameCol = document.createElement("span");
+        nameCol.className = "gift-name-label";
+        nameCol.style.textDecoration = "line-through";
+        nameCol.style.color = "var(--ink-faint)";
+        nameCol.textContent = gift.name;
+        leftPart.appendChild(nameCol);
+        row.appendChild(leftPart);
+
         const statusCol = document.createElement("span");
         statusCol.className = "gift-reserve-status";
+        statusCol.style.fontSize = "12px";
+        statusCol.style.color = "var(--ink-soft)";
         statusCol.textContent = `Tomado por ${gift.reservedBy}`;
         row.appendChild(statusCol);
       } else {
-        const btnCol = document.createElement("button");
-        btnCol.className = "gift-reserve-btn";
-        btnCol.textContent = "Tomar regalo 🎁";
-        btnCol.addEventListener("click", () => {
-          showReserveForm(gift.id, gift.name);
+        // Disponibles
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "gift-check";
+        checkbox.dataset.id = gift.id;
+        checkbox.dataset.name = gift.name;
+        checkbox.style.width = "18px";
+        checkbox.style.height = "18px";
+        checkbox.style.cursor = "pointer";
+        checkbox.style.accentColor = "var(--coral-deep)";
+        checkbox.addEventListener("change", () => {
+          updateSelectedCount();
         });
-        row.appendChild(btnCol);
+        leftPart.appendChild(checkbox);
+
+        const nameLabel = document.createElement("span");
+        nameLabel.className = "gift-name-label";
+        nameLabel.textContent = gift.name;
+        nameLabel.style.cursor = "pointer";
+        nameLabel.addEventListener("click", () => {
+          checkbox.checked = !checkbox.checked;
+          updateSelectedCount();
+        });
+        leftPart.appendChild(nameLabel);
+        row.appendChild(leftPart);
+
+        if (gift.unlimited) {
+          const badge = document.createElement("span");
+          badge.style.fontSize = "10px";
+          badge.style.background = "rgba(187, 147, 252, 0.15)";
+          badge.style.color = "var(--purple-deep)";
+          badge.style.padding = "2px 6px";
+          badge.style.borderRadius = "4px";
+          badge.textContent = "Múltiple";
+          row.appendChild(badge);
+        }
       }
 
       giftsContainer.appendChild(row);
     });
+
+    updateSelectedCount();
   }
 
-  function showReserveForm(id, name) {
-    selectedGiftId = id;
-    selectedGiftName.textContent = name;
-    giftReserveForm.style.display = "block";
-    giftReserverName.focus();
+  function updateSelectedCount() {
+    const checked = Array.from(document.querySelectorAll(".gift-check:checked"));
+    const count = checked.length;
     
-    // Scroll suave del modal hacia abajo para mostrar el formulario
-    setTimeout(() => {
-      const modalBody = giftsModal.querySelector(".gifts-card-modal");
-      modalBody.scrollTo({
-        top: modalBody.scrollHeight,
-        behavior: "smooth"
-      });
-    }, 100);
+    if (selectedGiftCount) selectedGiftCount.textContent = count;
+    
+    if (giftReserveForm) {
+      if (count > 0) {
+        giftReserveForm.style.display = "block";
+      } else {
+        giftReserveForm.style.display = "none";
+      }
+    }
   }
 
   function resetReserveForm() {
-    selectedGiftId = null;
-    selectedGiftName.textContent = "";
     giftReserverName.value = "";
     giftReserveForm.style.display = "none";
+    document.querySelectorAll(".gift-check").forEach(cb => cb.checked = false);
+    updateSelectedCount();
   }
 
   if (confirmReserveBtn) {
@@ -904,16 +948,24 @@
         return;
       }
 
+      const checkedBoxes = Array.from(document.querySelectorAll(".gift-check:checked"));
+      const giftIds = checkedBoxes.map(cb => cb.dataset.id);
+      
+      if (giftIds.length === 0) {
+        alert("Por favor, selecciona al menos un regalo.");
+        return;
+      }
+
       confirmReserveBtn.disabled = true;
       confirmReserveBtn.textContent = "Reservando...";
 
       try {
-        const res = await fetch(`${API_BASE}/gifts/${selectedGiftId}/reserve`, {
+        const res = await fetch(`${API_BASE}/gifts/reserve-multiple`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ name })
+          body: JSON.stringify({ name, giftIds })
         });
 
         if (!res.ok) {
@@ -925,6 +977,12 @@
         launchConfetti();
         if (typeof playExplosionSound === "function") playExplosionSound();
         
+        // Scroll suave del modal hacia arriba al completar
+        setTimeout(() => {
+          const modalBody = giftsModal.querySelector(".gifts-card-modal");
+          if (modalBody) modalBody.scrollTo({ top: 0, behavior: "smooth" });
+        }, 100);
+
         await loadGifts();
       } catch (err) {
         alert("Error: " + err.message);

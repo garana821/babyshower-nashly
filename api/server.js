@@ -237,6 +237,60 @@ api.post("/gifts/:id/reserve", (req, res) => {
   res.json(gift);
 });
 
+// Reservar múltiples regalos a la vez
+api.post("/gifts/reserve-multiple", (req, res) => {
+  const { name, giftIds } = req.body;
+  if (!name || !name.trim()) {
+    return res.status(400).json({ error: "El nombre de la persona que reserva es obligatorio" });
+  }
+  if (!giftIds || !Array.isArray(giftIds) || giftIds.length === 0) {
+    return res.status(400).json({ error: "Debes seleccionar al menos un regalo" });
+  }
+
+  const db = readDB();
+  if (!db.gifts) {
+    db.gifts = getDefaultGifts();
+  }
+
+  const reservedGifts = [];
+  const errors = [];
+
+  giftIds.forEach(id => {
+    const gift = db.gifts.find(g => g.id === id);
+    if (!gift) {
+      errors.push(`Regalo con ID ${id} no encontrado`);
+      return;
+    }
+
+    if (gift.unlimited) {
+      if (!gift.reservations) gift.reservations = [];
+      gift.reservations.push({
+        reservedBy: name.trim(),
+        reservedAt: new Date().toISOString()
+      });
+      gift.reserved = false;
+      gift.reservedBy = "";
+      if (gift.reservedAt) delete gift.reservedAt;
+    } else {
+      if (gift.reserved) {
+        errors.push(`El regalo "${gift.name}" ya está reservado`);
+        return;
+      }
+      gift.reserved = true;
+      gift.reservedBy = name.trim();
+      gift.reservedAt = new Date().toISOString();
+    }
+    reservedGifts.push(gift);
+  });
+
+  if (errors.length > 0 && reservedGifts.length === 0) {
+    return res.status(400).json({ error: errors.join(", ") });
+  }
+
+  writeDB(db);
+  res.json({ success: true, reserved: reservedGifts, errors });
+});
+
 // --- Rutas protegidas por autenticación básica ---
 api.use(adminAuth);
 
