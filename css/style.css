@@ -1452,8 +1452,7 @@ body, p, span, li, a, time, .hero-sub, .hero-scroll, .section-sub, .timeline-tim
   font-weight: 300 !important;
 }
 
-/* Todos los títulos blancos con sombra morada */
-h1, h2, h3, h4, 
+/* Todos los títulos de tarjetas y secciones blancos con sombra morada */
 .hero-title, 
 .section-head h2, 
 .intro-overlay-title, 
