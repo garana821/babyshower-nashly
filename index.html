@@ -462,7 +462,8 @@
             </svg></div>
           <h3>Mesa de regalos</h3>
           <p>Contamos con una pequeña lista de deseos disponible. ¡Puedes verla y reservar tu regalo aquí!</p>
-          <button class="btn btn-primary" id="openGiftsBtn" style="margin-top: 15px; padding: 10px 20px; font-size: 13px;">Ver lista de regalos 🎁</button>
+          <button class="btn btn-primary" id="openGiftsBtn"
+            style="margin-top: 15px; padding: 10px 20px; font-size: 13px;">Ver lista de regalos 🎁</button>
         </div>
         <div class="gift-card" style="--i:1">
           <div class="detail-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8">
@@ -557,9 +558,13 @@
 
         <div id="rsvp-success">
           <!-- Mascota en Burbuja Mágica de Éxito -->
-          <div class="success-bubble-wrap" style="position: relative; width: 140px; height: 140px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
-            <div id="successBigBubble" class="success-big-bubble" style="position: absolute; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(187,147,252,0.2) 60%, rgba(148,237,255,0.4)); border: 2px solid rgba(255,255,255,0.8); box-shadow: 0 0 20px rgba(255,255,255,0.6), inset 0 0 15px rgba(255,255,255,0.5);"></div>
-            <img id="successMascot" src="assets/icons/mascota.png" alt="Mascota Nash" style="width: 70px; height: auto; z-index: 2; transform: scale(0.1); opacity: 0; display: block;">
+          <div class="success-bubble-wrap"
+            style="position: relative; width: 140px; height: 140px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
+            <div id="successBigBubble" class="success-big-bubble"
+              style="position: absolute; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(187,147,252,0.2) 60%, rgba(148,237,255,0.4)); border: 2px solid rgba(255,255,255,0.8); box-shadow: 0 0 20px rgba(255,255,255,0.6), inset 0 0 15px rgba(255,255,255,0.5);">
+            </div>
+            <img id="successMascot" src="assets/icons/mascota.png" alt="Mascota Nash"
+              style="width: 70px; height: auto; z-index: 2; transform: scale(0.1); opacity: 0; display: block;">
             <div id="bubbleBurst" style="position: absolute; inset: 0; pointer-events: none;"></div>
           </div>
           <h3>¡Gracias por confirmar!</h3>
@@ -591,51 +596,73 @@
   <!-- MODAL DE MESA DE REGALOS -->
   <!-- ============================================================ -->
   <div class="egg-modal" id="giftsModal">
-    <div class="egg-card gifts-card-modal" style="max-width: 500px; width: 90%; max-height: 85vh; overflow-y: auto; text-align: left; padding: 30px; border-radius: 24px;">
-      
+    <div class="egg-card gifts-card-modal"
+      style="max-width: 500px; width: 90%; max-height: 85vh; overflow-y: auto; text-align: left; padding: 30px; border-radius: 24px;">
+
       <!-- Vista principal de la lista de regalos -->
       <div id="giftsMainView">
-        <h3 class="script" style="font-size: 38px; color: #5c3285 !important; text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important; text-align: center; margin-bottom: 5px;">Mesa de Regalos</h3>
+        <h3 class="script"
+          style="font-size: 38px; color: #5c3285 !important; text-shadow: 0 2px 4px #ffffff,  text-align: center; margin-bottom: 5px;">
+          Mesa de Regalos</h3>
         <p style="text-align: center; font-size: 14px; margin-bottom: 20px; color: var(--ink-soft);">
           Selecciona un regalo para reservarlo. Así ayudamos a los papás a no recibir regalos repetidos. 💗
         </p>
-        
-        <div id="giftsContainer" class="gifts-list-container" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; max-height: 40vh; overflow-y: auto; padding-right: 5px;">
+
+        <div id="giftsContainer" class="gifts-list-container"
+          style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; max-height: 40vh; overflow-y: auto; padding-right: 5px;">
           <p style="text-align: center; color: var(--ink-faint);">Cargando regalos del mar...</p>
         </div>
 
         <!-- Formulario para reservar -->
-        <div id="giftReserveForm" style="display: none; border-top: 1px dashed rgba(187, 147, 252, 0.3); padding-top: 20px;">
-          <h4 style="font-family: var(--f-display); margin-bottom: 10px; color: #5c3285 !important; text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important; font-size: 16px;">Reservar seleccionados: <span id="selectedGiftCount" style="color: #D05375 !important; text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important; font-weight: bold;">0</span> regalos</h4>
+        <div id="giftReserveForm"
+          style="display: none; border-top: 1px dashed rgba(187, 147, 252, 0.3); padding-top: 20px;">
+          <h4
+            style="font-family: var(--f-display); margin-bottom: 10px; color: #5c3285 !important; text-shadow: 0 2px 4px #ffffff,  font-size: 16px;">
+            Reservar seleccionados: <span id="selectedGiftCount"
+              style="color: #D05375 !important; text-shadow: 0 2px 4px #ffffff,  font-weight: bold;">0</span>
+            regalos</h4>
           <div class="field" style="margin-bottom: 15px;">
-            <label for="giftReserverName" style="font-size: 13px; color: var(--ink-soft); display: block; margin-bottom: 6px;">Tu Nombre completo</label>
-            <input type="text" id="giftReserverName" placeholder="Escribe tu nombre para la reserva" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(187, 147, 252, 0.4); background: rgba(255,255,255,0.7); box-sizing: border-box;">
+            <label for="giftReserverName"
+              style="font-size: 13px; color: var(--ink-soft); display: block; margin-bottom: 6px;">Tu Nombre
+              completo</label>
+            <input type="text" id="giftReserverName" placeholder="Escribe tu nombre para la reserva"
+              style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(187, 147, 252, 0.4); background: rgba(255,255,255,0.7); box-sizing: border-box;">
           </div>
           <div style="display: flex; gap: 10px;">
-            <button class="btn btn-primary" id="confirmReserveBtn" style="flex: 1; padding: 10px; font-size: 13px;">Confirmar Reserva ✦</button>
-            <button class="btn" id="cancelReserveBtn" style="background: rgba(0,0,0,0.05); color: var(--ink); padding: 10px; font-size: 13px; border: none; border-radius: 999px;">Limpiar selección</button>
+            <button class="btn btn-primary" id="confirmReserveBtn"
+              style="flex: 1; padding: 10px; font-size: 13px;">Confirmar Reserva ✦</button>
+            <button class="btn" id="cancelReserveBtn"
+              style="background: rgba(0,0,0,0.05); color: var(--ink); padding: 10px; font-size: 13px; border: none; border-radius: 999px;">Limpiar
+              selección</button>
           </div>
         </div>
-        
+
         <div style="text-align: center; margin-top: 20px;">
-          <button class="egg-close" id="giftsCloseBtn" style="position: static; margin: 0 auto; display: inline-block;">Cerrar lista</button>
+          <button class="egg-close" id="giftsCloseBtn"
+            style="position: static; margin: 0 auto; display: inline-block;">Cerrar lista</button>
         </div>
       </div>
 
       <!-- Vista de confirmación / éxito tras reservar -->
       <div id="giftsSuccessView" style="display: none; text-align: center; padding: 10px 0;">
         <div style="font-size: 48px; margin-bottom: 8px;">🎁✨</div>
-        <h3 style="font-family: 'Winter is coming', var(--f-display); font-size: 34px; color: #5c3285 !important; text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important; margin-bottom: 12px; text-align: center;">¡Reserva Confirmada!</h3>
+        <h3
+          style="font-family: 'Winter is coming', var(--f-display); font-size: 34px; color: #5c3285 !important; text-shadow: 0 2px 4px #ffffff, margin-bottom: 12px; text-align: center;">
+          ¡Reserva Confirmada!</h3>
         <p style="font-size: 15px; color: #5c3285; margin-bottom: 16px; line-height: 1.5;">
-          ¡Muchas gracias! Has seleccionado con mucho cariño el/los siguiente(s) regalo(s) para <strong>Nashly Antonella</strong>:
+          ¡Muchas gracias! Has seleccionado con mucho cariño el/los siguiente(s) regalo(s) para <strong>Nashly
+            Antonella</strong>:
         </p>
-        <div id="reservedSummaryList" style="background: rgba(255, 255, 255, 0.65); border: 1px dashed rgba(140, 92, 214, 0.4); border-radius: 16px; padding: 16px; margin-bottom: 20px; text-align: left; display: flex; flex-direction: column; gap: 10px; max-height: 30vh; overflow-y: auto;">
+        <div id="reservedSummaryList"
+          style="background: rgba(255, 255, 255, 0.65); border: 1px dashed rgba(140, 92, 214, 0.4); border-radius: 16px; padding: 16px; margin-bottom: 20px; text-align: left; display: flex; flex-direction: column; gap: 10px; max-height: 30vh; overflow-y: auto;">
           <!-- Se completa vía JS -->
         </div>
         <p style="font-size: 14px; color: #5c3285; margin-bottom: 22px; font-style: italic;">
           ¡Los papás te lo agradecen de todo corazón! 🐚💗
         </p>
-        <button class="egg-close" id="giftsSuccessCloseBtn" style="position: static; margin: 0 auto; display: inline-block; background: var(--coral-deep); color: white;">Aceptar y Cerrar ✦</button>
+        <button class="egg-close" id="giftsSuccessCloseBtn"
+          style="position: static; margin: 0 auto; display: inline-block; background: var(--coral-deep); color: white;">Aceptar
+          y Cerrar ✦</button>
       </div>
 
     </div>
