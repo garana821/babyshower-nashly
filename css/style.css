@@ -985,6 +985,19 @@ footer .script{ font-size: 30px; color: var(--coral-deep); display:block; margin
   transition: transform .4s var(--ease-silk);
 }
 .egg-modal.show .egg-card{ transform: scale(1); }
+.gifts-card-modal {
+  background: rgba(160, 140, 215, 0.92) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 2px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 15px 45px rgba(91, 74, 99, 0.4) !important;
+  color: #ffffff !important;
+}
+.gifts-card-modal p,
+.gifts-card-modal label {
+  color: #ffffff !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+}
 .egg-card p{ font-size: 15px; line-height: 1.8; color: var(--ink); margin: 14px 0 20px; }
 .egg-close{
   border: none; background: var(--blush); color: var(--ink);
@@ -1467,6 +1480,7 @@ body, p, span, li, a, time, .hero-sub, .hero-scroll, .section-sub, .timeline-tim
 }
 
 /* Excepción: Títulos dentro de la Mesa de Regalos Modal (morados con sombra blanca) */
+/* Títulos de la Mesa de Regalos Modal: blanco con sombra morada */
 .gifts-card-modal h3,
 .gifts-card-modal h4,
 #giftsModal h3,
@@ -1474,9 +1488,11 @@ body, p, span, li, a, time, .hero-sub, .hero-scroll, .section-sub, .timeline-tim
 #giftsMainView h3,
 #giftsMainView h4,
 #giftsSuccessView h3,
-#giftsSuccessView h4 {
-  color: #5c3285 !important;
-  text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important;
+#giftsSuccessView h4,
+.gift-modal-title-purple,
+.gift-modal-subtitle-purple {
+  color: #ffffff !important;
+  text-shadow: 0 4px 15px rgba(91, 74, 99, 0.95), 0 0 25px rgba(187, 147, 252, 0.75) !important;
 }
 
 /* Cejas/subtítulos pequeños destacados en morado con sombra blanca */
@@ -1604,25 +1620,25 @@ footer p {
   text-shadow: 0 2px 8px rgba(91, 74, 99, 0.95), 0 0 12px rgba(140, 92, 214, 0.75) !important;
 }
 
-/* Forzar visibilidad y color morado para títulos en el modal de regalos */
+/* Forzar títulos blancos con sombra morada en el modal de regalos */
 #giftsModal h3,
 #giftsModal h4,
 .gifts-card-modal h3,
 .gifts-card-modal h4,
 .gift-modal-title-purple,
 .gift-modal-subtitle-purple {
-  color: #5c3285 !important;
-  text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important;
+  color: #ffffff !important;
+  text-shadow: 0 4px 15px rgba(91, 74, 99, 0.95), 0 0 25px rgba(187, 147, 252, 0.75) !important;
 }
 
 .gift-modal-title-purple {
-  color: #5c3285 !important;
-  text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important;
+  color: #ffffff !important;
+  text-shadow: 0 4px 15px rgba(91, 74, 99, 0.95), 0 0 25px rgba(187, 147, 252, 0.75) !important;
 }
 
 .gift-modal-subtitle-purple {
-  color: #5c3285 !important;
-  text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important;
+  color: #ffffff !important;
+  text-shadow: 0 4px 15px rgba(91, 74, 99, 0.95), 0 0 25px rgba(187, 147, 252, 0.75) !important;
 }
 
 #giftsModal h4 #selectedGiftCount,

@@ -21,7 +21,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Outfit:wght@200;300;400;500;600;700&family=Great+Vibes&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=bubblev35">
+  <link rel="stylesheet" href="css/style.css?v=bubblev36">
 </head>
 
 <body class="intro-active">
@@ -602,44 +602,44 @@
       <!-- Vista principal de la lista de regalos -->
       <div id="giftsMainView">
         <h3 class="script gift-modal-title-purple"
-          style="font-size: 38px; color: #5c3285 !important; text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important; text-align: center; margin-bottom: 5px;">
+          style="font-size: 38px; color: #ffffff !important; text-shadow: 0 4px 15px rgba(91, 74, 99, 0.95), 0 0 25px rgba(187, 147, 252, 0.75) !important; text-align: center; margin-bottom: 5px;">
           Mesa de Regalos</h3>
-        <p style="text-align: center; font-size: 14px; margin-bottom: 20px; color: var(--ink-soft);">
+        <p style="text-align: center; font-size: 14px; margin-bottom: 20px; color: #ffffff; text-shadow: 0 1px 4px rgba(0,0,0,0.3);">
           Selecciona un regalo para reservarlo. Así ayudamos a los papás a no recibir regalos repetidos. 💗
         </p>
 
         <div id="giftsContainer" class="gifts-list-container"
           style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; max-height: 40vh; overflow-y: auto; padding-right: 5px;">
-          <p style="text-align: center; color: var(--ink-faint);">Cargando regalos del mar...</p>
+          <p style="text-align: center; color: rgba(255,255,255,0.8);">Cargando regalos del mar...</p>
         </div>
 
         <!-- Formulario para reservar -->
         <div id="giftReserveForm"
-          style="display: none; border-top: 1px dashed rgba(187, 147, 252, 0.3); padding-top: 20px;">
+          style="display: none; border-top: 1px dashed rgba(255, 255, 255, 0.4); padding-top: 20px;">
           <h4 class="gift-modal-subtitle-purple"
-            style="font-family: var(--f-display); margin-bottom: 10px; color: #5c3285 !important; text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important; font-size: 16px;">
+            style="font-family: var(--f-display); margin-bottom: 10px; color: #ffffff !important; text-shadow: 0 4px 15px rgba(91, 74, 99, 0.95), 0 0 25px rgba(187, 147, 252, 0.75) !important; font-size: 16px;">
             Reservar seleccionados: <span id="selectedGiftCount" class="gift-modal-count-coral"
-              style="color: #D05375 !important; text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important; font-weight: bold;">0</span>
+              style="color: #FFD1DC !important; text-shadow: 0 2px 8px rgba(91, 74, 99, 0.95) !important; font-weight: bold;">0</span>
             regalos</h4>
           <div class="field" style="margin-bottom: 15px;">
             <label for="giftReserverName"
-              style="font-size: 13px; color: var(--ink-soft); display: block; margin-bottom: 6px;">Tu Nombre
+              style="font-size: 13px; color: #ffffff; text-shadow: 0 1px 4px rgba(0,0,0,0.3); display: block; margin-bottom: 6px;">Tu Nombre
               completo</label>
             <input type="text" id="giftReserverName" placeholder="Escribe tu nombre para la reserva"
-              style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(187, 147, 252, 0.4); background: rgba(255,255,255,0.7); box-sizing: border-box;">
+              style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.6); background: rgba(255,255,255,0.9); color: #3c283c; box-sizing: border-box;">
           </div>
           <div style="display: flex; gap: 10px;">
             <button class="btn btn-primary" id="confirmReserveBtn"
               style="flex: 1; padding: 10px; font-size: 13px;">Confirmar Reserva ✦</button>
             <button class="btn" id="cancelReserveBtn"
-              style="background: rgba(0,0,0,0.05); color: var(--ink); padding: 10px; font-size: 13px; border: none; border-radius: 999px;">Limpiar
+              style="background: rgba(255,255,255,0.2); color: #ffffff; padding: 10px; font-size: 13px; border: 1px solid rgba(255,255,255,0.4); border-radius: 999px;">Limpiar
               selección</button>
           </div>
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
           <button class="egg-close" id="giftsCloseBtn"
-            style="position: static; margin: 0 auto; display: inline-block;">Cerrar lista</button>
+            style="position: static; margin: 0 auto; display: inline-block; background: rgba(255,255,255,0.25); color: white; border: 1px solid rgba(255,255,255,0.5);">Cerrar lista</button>
         </div>
       </div>
 
@@ -647,7 +647,7 @@
       <div id="giftsSuccessView" style="display: none; text-align: center; padding: 10px 0;">
         <div style="font-size: 48px; margin-bottom: 8px;">🎁✨</div>
         <h3 class="gift-modal-title-purple"
-          style="font-family: 'Winter is coming', var(--f-display); font-size: 34px; color: #5c3285 !important; text-shadow: 0 2px 4px #ffffff, 0 0 8px #ffffff !important; margin-bottom: 12px; text-align: center;">
+          style="font-family: 'Winter is coming', var(--f-display); font-size: 34px; color: #ffffff !important; text-shadow: 0 4px 15px rgba(91, 74, 99, 0.95), 0 0 25px rgba(187, 147, 252, 0.75) !important; margin-bottom: 12px; text-align: center;">
           ¡Reserva Confirmada!</h3>
         <p style="font-size: 15px; color: #5c3285; margin-bottom: 16px; line-height: 1.5;">
           ¡Muchas gracias! Has seleccionado con mucho cariño el/los siguiente(s) regalo(s) para <strong>Nashly
@@ -694,7 +694,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.4.4/qrcode.min.js"></script>
 
-  <script src="js/main.js?v=giftsv8"></script>
+  <script src="js/main.js?v=giftsv9"></script>
 </body>
 
 </html>
